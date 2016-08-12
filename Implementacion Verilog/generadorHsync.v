@@ -5,7 +5,7 @@
 	11-Ago-2016: Modificar el rango de datos, que ahora es de 1600
 */
 
-module genradorHsinc(cntHorizontal,HSync);
+module generadorHsync(cntHorizontal,HSync);
 	// Entradas
 	input [10:0] cntHorizontal;
 	// Salidas

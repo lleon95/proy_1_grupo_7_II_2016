@@ -5,7 +5,7 @@
 	11-Ago-2016: Fue modificado para adaptarlo a 840 000 ticks
 */
 
-module generadorVsinc(cntVertical,VSync);
+module generadorVsync(cntVertical,VSync);
 	//entradas
 	input [39:0] cntVertical;
 	//salida

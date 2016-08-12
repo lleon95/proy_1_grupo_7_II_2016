@@ -5,7 +5,7 @@
 	11-Ago-2016: Fue ampliado el rango de operacion a 40 bits, con tome de 840000
 */
 
-module contadovertical(Clk, Reset, cntVertical);
+module contadorvertical(Clk, Reset, cntVertical);
 	//entradas salidas
 	input Clk, Reset;
 	//salidas
