@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    13:32:18 08/07/2016 
+// Create Date:    14:48:50 08/06/2016 
 // Design Name: 
-// Module Name:    genradorHsinc 
+// Module Name:    contadovertical 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,17 +18,23 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module genradorHsinc(cuenta,Hsinc);
-	//entradas
-	input [9:0] cuenta;
+module contadovertical(Clk, reset, cuenta);
+	//entradas salidas
+	input Clk, reset;
 	//salidas
-	output Hsinc;
-	reg Hsinc;
-	always @*
+	output cuenta;
+	reg [9:0] cuenta ;
+	always @ (posedge Clk)
 	begin
-		//flanco negativo del hsinc
-		if(cuenta >=655 || cuenta <= 750) Hsinc =0;
-		//falnco positivo del hsinc
-		else Hsinc = 1;
+		//condicion de inicio
+		if (reset) cuenta <= 10'b0;
+		else
+		begin
+			//final de la cuenta
+			if (cuenta == 525) cuenta <= 0;
+			//aumento de la cuenta
+			else cuenta <= cuenta +1;	
+		end
 	end
+
 endmodule

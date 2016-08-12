@@ -1,39 +1,26 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    14:48:50 08/06/2016 
-// Design Name: 
-// Module Name:    contadovertical 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
-module contadovertical(Clk, reset, cuenta);
+
+/*
+	LOGBOOK:
+	11-Ago-2016: Fue ampliado el rango de operacion a 40 bits, con tome de 840000
+*/
+
+module contadovertical(Clk, Reset, cntVertical);
 	//entradas salidas
-	input Clk, reset;
+	input Clk, Reset;
 	//salidas
-	output cuenta;
-	reg [9:0] cuenta ;
+	output cntVertical;
+	reg [39:0] cntVertical ;
 	always @ (posedge Clk)
 	begin
 		//condicion de inicio
-		if (reset) cuenta <= 10'b0;
+		if (Reset) cntVertical <= 10'b0;
 		else
 		begin
 			//final de la cuenta
-			if (cuenta == 525) cuenta <= 0;
+			if (cntVertical == 840000) cntVertical <= 0;
 			//aumento de la cuenta
-			else cuenta <= cuenta +1;	
+			else cntVertical <= cntVertical +1;	
 		end
 	end
 

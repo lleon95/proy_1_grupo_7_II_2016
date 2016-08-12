@@ -1,34 +1,21 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    13:36:05 08/07/2016 
-// Design Name: 
-// Module Name:    generadorVsinc 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
-module generadorVsinc(cuenta,Vsinc);
+
+/*
+	LOGBOOK:
+	11-Ago-2016: Fue modificado para adaptarlo a 840 000 ticks
+*/
+
+module generadorVsinc(cntVertical,VSync);
 	//entradas
-	input [9:0] cuenta;
+	input [39:0] cntVertical;
 	//salida
-	output Vsinc;
-	reg Vsinc;
-	always @(cuenta)
+	output VSync;
+	reg VSync;
+	always @(cntVertical)
 	begin
-		//flanco negativo del vsinc
-		if(cuenta >=489 || cuenta <= 491) Vsinc =0;
-		//flanco positivo del vsinc
-		else Vsinc = 1;
+		// Flanco Positivo del VSync
+		if(cntVertical > 0 && cntVertical <= 836800) VSync = 1'b1;
+		// Flanco Negativo del VSync
+		else VSync = 1'b0;
 	end
 endmodule
