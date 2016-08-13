@@ -3,11 +3,12 @@
 /*
 	LOGBOOK:
 	11-Ago-2016: Fue modificado para adaptarlo a 840 000 ticks
+	13-Ago-2016: Eran 20 bits en lugar de 40
 */
 
 module generadorVsync(cntVertical,VSync);
 	//entradas
-	input [39:0] cntVertical;
+	input [19:0] cntVertical;
 	//salida
 	output VSync;
 	reg VSync;

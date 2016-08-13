@@ -3,6 +3,7 @@
 /*
 	LOGBOOK:
 	11-Ago-2016: Fue ampliado el rango de operacion a 40 bits, con tome de 840000
+	13-Ago-2016: Eran 20 bits en lugar de 40
 */
 
 module contadorvertical(Clk, Reset, cntVertical);
@@ -10,7 +11,7 @@ module contadorvertical(Clk, Reset, cntVertical);
 	input Clk, Reset;
 	//salidas
 	output cntVertical;
-	reg [39:0] cntVertical ;
+	reg [19:0] cntVertical;
 	always @ (posedge Clk)
 	begin
 		//condicion de inicio
