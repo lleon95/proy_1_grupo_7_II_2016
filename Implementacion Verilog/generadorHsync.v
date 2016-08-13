@@ -9,8 +9,8 @@ module generadorHsync(cntHorizontal,HSync);
 	// Entradas
 	input [10:0] cntHorizontal;
 	// Salidas
-	output HSync
-	reg HSync
+	output HSync;
+	reg HSync;
 	always @*
 	begin
 		// Para flanco positivo del HSync
