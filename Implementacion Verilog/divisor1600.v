@@ -9,8 +9,8 @@ module divisor1600(cntVertical, posVertical);
 	//entradas
 	input [19:0] cntVertical;
 	//salidas
-	output [10:0] posVertical;
-	reg [10:0] posVertical;
+	output [9:0] posVertical;
+	reg [9:0] posVertical;
 	always @ *
 		posVertical = cntVertical / 1600;
 	
