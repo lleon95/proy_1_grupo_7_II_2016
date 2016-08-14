@@ -10,7 +10,7 @@ module contadorvertical(Clk, Reset, cntVertical);
 	//entradas salidas
 	input Clk, Reset;
 	//salidas
-	output cntVertical;
+	output [19:0] cntVertical;
 	reg [19:0] cntVertical;
 	always @ (posedge Clk)
 	begin
