@@ -32,9 +32,9 @@ module controlVGA(Clock,reset,Up,Down,TC,Lp,Azul,Verde,Rojo,Hsinc,Vsinc);
 	wire[2:0] ColorP;
 	DivisorFrecuenciaPixel Divisor(.SysClk(Clock),.Reset(reset), .PixelClk(Clk));
 	contadorhorizontal ContH(.Clk(Clk), .reset(reset), .cuenta(cuentaH));
-	genradorHsinc GenH(.cuenta(cuentaH),.Hsinc(Hsinc));//cuenta,Hsinc
-	contadovertical ContV(.Clk(Hsinc), .reset(reset), .cuenta(cuentaV));//Clk, reset, cuenta
-	generadorVsinc GenV(.cuenta(cuentaV),.Vsinc(Vsinc));//cuenta,Hsin
+	generadorHsync GenH(.cuenta(cuentaH),.Hsinc(Hsinc));//cuenta,Hsinc
+	contadorvertical ContV(.Clk(Hsinc), .reset(reset), .cuenta(cuentaV));//Clk, reset, cuenta
+	generadorVsync GenV(.cuenta(cuentaV),.Vsinc(Vsinc));//cuenta,Hsin
 	memoria Memo(.Posx(cuentaH),.Posy(cuentaV),.blank(blank),.letra(letra),.Clk(Clk),.reset(reset));//Posx,Posy,blank,letra,Clk,reset
 	controldecroma ContrCrom(.TC(TC),.UP(Up),.down(Down),.reset(reset),.LP(Lp),.ColorL(ColorL),.ColorP(ColorP),.ton(ton));//Tono,UP,down,color,reset,LP,ColorL,ColorP,ton
 	controldesalida ContrOut(.clk(Clk),.ColorP(ColorP),.ColorL(ColorL),.ton(ton),.azul(Azul),.rojo(Rojo),.verde(Verde),.letra(letra),.blank(blank));//clk,ColorP,ColorL,ton,azul,rojo,verde,letra,blank
