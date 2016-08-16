@@ -1,23 +1,9 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    10:03:09 08/16/2016 
-// Design Name: 
-// Module Name:    controlvga_principal 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+/*
+	LOGBOOK:
+	16-Ago-2016: Se hicieron las correcciones por la eliminación del divisor de 1600
+*/
+
 module controlvga_principal(Clock,reset,Up,Down,TC,Lp,Azul,Verde,Rojo,Hsinc,Vsinc);
  input Clock,reset,Up,Down,TC,Lp;
  output Azul,Verde,Rojo,Hsinc,Vsinc;
@@ -26,23 +12,51 @@ module controlvga_principal(Clock,reset,Up,Down,TC,Lp,Azul,Verde,Rojo,Hsinc,Vsin
  wire [2:0] Verde;
  wire Hsinc;
  wire Vsinc;
- wire [10:0] cntHorizontal;
- wire [19:0] cntVetical;
- wire [9:0] posHorizontal;
- wire [9:0] posVertical;
+ wire [9:0] cntHorizontal;
+ wire [9:0] cntVertical;
+// wire [9:0] posHorizontal;
+// wire [9:0] posVertical;
  wire blank;
  wire letra;
  wire [7:0] ton;
  wire [2:0] ColorL;
  wire [2:0] ColorP;
- contadorhorizontal contH(.Clk(Clock), .Reset(reset), .cntHorizontal(cntHorizontal));
- contadorvertical contV(.Clk(Clock), .Reset(reset), .cntVertical(cntVetical));
+ wire vflag;
+ /*
+	Contadores
+ */
+ // Conectar módulo de contador horizontal
+ contadorhorizontal contH(.Clk(Clock), .Reset(reset), .cntHorizontal(cntHorizontal), .vflag(vflag));
+ // Conectar módulo de contador vertical
+ contadorvertical contV(.Clk(Clock), .Reset(reset), .cntVertical(cntVertical), .vflag(vflag));
+ /*
+	Generadores
+ */
+ // Generador de sincronía horizontal (HSYNC)
  generadorHsync genH(.cntHorizontal(cntHorizontal),.HSync(Hsinc));
+ // Generador de sincronía vertical (VSYNC)
  generadorVsync genV(.cntVertical(cntVertical),.VSync(Vsinc));
- divisorpor2 divisor2(.incont(cntHorizontal),.cuenta(posHorizontal));
- divisor1600 divisor_1600(.cntVertical(cntVertical), .posVertical(posVertical));
- memoria mem(.Posx(posHorizontal),.Posy(posVertical),.blank(blank),.letra(letra),.Clk(Clock),.reset(reset));
- controldecroma croma(.TC(TC),.UP(Up),.down(Down),.reset(reset),.LP(Lp),.ColorL(ColorL),.ColorP(ColorP),.ton(ton));
+ /* 
+	Divisores binarios
+ */
+ // Adaptador de posición horizontal
+ //divisorpor2 divisor2(.incont(cntHorizontal),.cuenta(posHorizontal));
+ // --- START LLEON --- Ya no se usa.
+ //divisor1600 divisor_1600(.cntVertical(cntVertical), .posVertical(posVertical));
+ // --- END LLEON ---
+ 
+ /*
+	Memoria
+	Nota: el contador vertical se conecta directo a memoria
+ */
+ memoria mem(.Posx(cntHorizontal),.Posy(cntVertical),.blank(blank),.letra(letra),.Clk(Clock),.reset(reset));
+ /*
+	Control de colores
+ */
+ controldecroma croma(.TC(TC),.UP(Up),.down(Down),.reset(reset),.LP(Lp),.ColorL(ColorL),.ColorP(ColorP),.ton(ton), .Clk(Clock));
+ /*
+	Control de salida
+ */
  controldesalida crtlout(.clk(Clock),.ColorP(ColorP),.ColorL(ColorL),.ton(ton),.azul(Azul),.rojo(Rojo),.verde(Verde),.letra(letra),.blank(blank));
  
  

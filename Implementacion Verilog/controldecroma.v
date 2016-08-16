@@ -18,15 +18,15 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module controldecroma(TC,UP,down,reset,LP,ColorL,ColorP,ton);
+module controldecroma(TC,UP,down,reset,LP,ColorL,ColorP,ton,Clk);
 	//entradas
-	input TC,LP,UP,down,reset;
+	input TC,LP,UP,down,reset, Clk;
 	//salidas
 	output ton,ColorL,ColorP;
 	reg[7:0] ton;
 	reg[2:0] ColorL;
 	reg[2:0] ColorP;
-	always @*
+	always @(posedge Clk)
 	begin
 		//condiciones de inicio
 		if(reset)
