@@ -6,22 +6,26 @@
 	13-Ago-2016: Eran 20 bits en lugar de 40
 */
 
-module contadorvertical(Clk, Reset, cntVertical);
+module contadorvertical(Clk, Reset, cntVertical, vflag);
 	//entradas salidas
-	input Clk, Reset;
+	input Clk, Reset, vflag;
 	//salidas
-	output [19:0] cntVertical;
-	reg [19:0] cntVertical;
+	output [9:0] cntVertical;
+	reg [9:0] cntVertical;
 	always @ (posedge Clk)
 	begin
 		//condicion de inicio
-		if (Reset) cntVertical <= 10'b0;
+		if (Reset) cntVertical <= 0;
 		else
 		begin
-			//final de la cuenta
-			if (cntVertical == 840000) cntVertical <= 0;
-			//aumento de la cuenta
-			else cntVertical <= cntVertical +1;	
+			// Check flag
+			if(vflag)
+			begin
+				//final de la cuenta
+				if (cntVertical == 524) cntVertical <= 0;
+				//aumento de la cuenta
+				else cntVertical <= cntVertical +1;	
+			end
 		end
 	end
 

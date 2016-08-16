@@ -8,14 +8,14 @@
 
 module generadorVsync(cntVertical,VSync);
 	//entradas
-	input [19:0] cntVertical;
+	input [9:0] cntVertical;
 	//salida
 	output VSync;
 	reg VSync;
 	always @(cntVertical)
 	begin
 		// Flanco Positivo del VSync
-		if(cntVertical > 0 && cntVertical <= 836800) VSync = 1'b1;
+		if(cntVertical > 0 && cntVertical <= 523) VSync = 1'b1;
 		// Flanco Negativo del VSync
 		else VSync = 1'b0;
 	end
