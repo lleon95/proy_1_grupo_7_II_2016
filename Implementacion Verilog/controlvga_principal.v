@@ -54,10 +54,10 @@ module controlvga_principal(Clock,reset,Up,Down,TC,Lp,Azul,Verde,Rojo,Hsinc,Vsin
 	Debouncers
  */
  wire TC_db, Up_db, Down_db, Lp_db;
- debouncer dbc1(.signalInput(TC),.signalOutput(TC_db),.Clk(Clock),.Reset(reset));
+ oneshotdebouncer dbc1(.signalInput(TC),.signalOutput(TC_db),.Clk(Clock),.Reset(reset));
  debouncer dbc2(.signalInput(Up),.signalOutput(Up_db),.Clk(Clock),.Reset(reset));
  debouncer dbc3(.signalInput(Down),.signalOutput(Down_db),.Clk(Clock),.Reset(reset));
- debouncer dbc4(.signalInput(Lp),.signalOutput(Lp_db),.Clk(Clock),.Reset(reset));
+ oneshotdebouncer dbc4(.signalInput(Lp),.signalOutput(Lp_db),.Clk(Clock),.Reset(reset));
  
  /*
 	Control de colores

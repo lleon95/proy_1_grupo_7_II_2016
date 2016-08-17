@@ -26,7 +26,7 @@ module memoria(Posx,Posy,blank,letra,Clk,reset);
 	//salidas
 	output blank, letra;
 	reg blank, letra;
-	always @(negedge Clk)
+	always @(posedge Clk)
 	begin
 		//condiciones de inicio
 		if(reset)
@@ -37,7 +37,7 @@ module memoria(Posx,Posy,blank,letra,Clk,reset);
 		//posiciones de blank (espacios donde no se pinta)
 		else 
 		begin
-			if(Posx >= 640 || Posx <= 48 || Posy >= 480 || Posy <= 33)	blank <=1;
+			if(Posx >= 687 || Posx <= 47 || Posy >= 512 || Posy <= 32)	blank <=1;
 			else blank <=0;
 			//posicion de las letras
 			//primera colomuna
