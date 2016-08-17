@@ -41,9 +41,49 @@ module controldecroma(TC,UP,down,reset,LP,ColorL,ColorP,ton,Clk);
 			if(TC)
 			begin
 				//aumneto de tono siempre y cuando no esta al maximo
-				if(UP && ton != 8'b11111111)ton<=ton+1;
+				if(UP && ton != 8'b11111111)
+					begin
+						ton = ton +1;
+						if(ton[0]==0&&ton[1]==0&&ton[2]==0)ton[0]=1;
+						else
+						begin
+						end
+						if(ton[3]==0&&ton[4]==0&&ton[5]==0)ton[3]=1;
+						else
+						begin
+						end
+						if(ton[6]==0&&ton[7]==0)ton[6]=1;
+						else
+						begin
+						end
+					end
 				//disminucion del siempre y cuando no se encuente en el minimo
-				else if(down && ton != 0)ton<=ton-1;
+				else if(down && ton != 8'b01001001)
+				begin
+					ton=ton-1;
+					if(ton[0]==0&&ton[1]==0&&ton[2]==0)
+						begin
+							ton[0]=1;
+							ton[1]=1;
+							ton[2]=1;
+							ton[3]=~ton[3];
+						end
+						else
+						begin
+						end
+						if(ton[3]==0&&ton[4]==0&&ton[5]==0)
+						begin
+							ton[3]=1;
+							ton[4]=1;
+							ton[5]=1;
+							if(ton[6]==0&&ton[7]==1) 
+							begin
+								ton[6]=~ton[6];
+								ton[7]=~ton[7];
+							end
+							else ton[6]=~ton[6];					
+						end
+				end
 			end
 			//si se quiere cambiar el color de las letras o la pantalla
 			else
