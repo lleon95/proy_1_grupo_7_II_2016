@@ -51,9 +51,19 @@ module controlvga_principal(Clock,reset,Up,Down,TC,Lp,Azul,Verde,Rojo,Hsinc,Vsin
  */
  memoria mem(.Posx(cntHorizontal),.Posy(cntVertical),.blank(blank),.letra(letra),.Clk(Clock),.reset(reset));
  /*
-	Control de colores
+	Debouncers
  */
- controldecroma croma(.TC(TC),.UP(Up),.down(Down),.reset(reset),.LP(Lp),.ColorL(ColorL),.ColorP(ColorP),.ton(ton), .Clk(Clock));
+ wire TC_db, Up_db, Down_db, Lp_db;
+ debouncer dbc1(.signalInput(TC),.signalOutput(TC_db),.Clk(Clock),.Reset(reset));
+ debouncer dbc2(.signalInput(Up),.signalOutput(Up_db),.Clk(Clock),.Reset(reset));
+ debouncer dbc3(.signalInput(Down),.signalOutput(Down_db),.Clk(Clock),.Reset(reset));
+ debouncer dbc4(.signalInput(Lp),.signalOutput(Lp_db),.Clk(Clock),.Reset(reset));
+ 
+ /*
+	Control de colores
+	IN/OUT: input TC,LP,UP,down,reset, Clk
+ */
+ controldecroma croma(.TC(TC_db),.UP(Up_db),.down(Down_db),.reset(reset),.LP(Lp_db),.ColorL(ColorL),.ColorP(ColorP),.ton(ton), .Clk(Clock));
  /*
 	Control de salida
  */
