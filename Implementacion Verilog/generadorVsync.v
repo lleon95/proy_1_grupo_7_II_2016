@@ -15,7 +15,7 @@ module generadorVsync(cntVertical,VSync);
 	always @(cntVertical)
 	begin
 		// Flanco Positivo del VSync
-		if(cntVertical > 0 && cntVertical <= 523) VSync = 1'b1;
+		if(cntVertical > 0 && cntVertical < 520) VSync = 1'b1;
 		// Flanco Negativo del VSync
 		else VSync = 1'b0;
 	end

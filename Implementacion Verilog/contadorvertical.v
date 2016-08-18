@@ -22,7 +22,7 @@ module contadorvertical(Clk, Reset, cntVertical, vflag);
 			if(vflag)
 			begin
 				//final de la cuenta
-				if (cntVertical == 524) cntVertical <= 0;
+				if (cntVertical == 520) cntVertical <= 0;
 				//aumento de la cuenta
 				else cntVertical <= cntVertical +1;	
 			end

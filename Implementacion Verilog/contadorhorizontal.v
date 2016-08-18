@@ -30,17 +30,16 @@ module contadorhorizontal(Clk, Reset, cntHorizontal, vflag);
 			begin
 			// Reset counter
 				Horizontal <= 0;
-			// Set flag to one
-				vflag <= 1'b1;
 			end
 			//aumento de la cuenta
 			else 
 			begin
 			// Increment counter
 				Horizontal <= Horizontal + 1;
-			// Set flag to zero
-				vflag <= 1'b0;
 			end
+			// Controlar bandera
+			if (Horizontal == 1408) vflag <= 1'b1; // Rise flag //1320 desfase
+			else vflag <= 1'b0; 
 		end
 	end
 

@@ -34,10 +34,10 @@ module memoria(Posx,Posy,blank,letra,Clk,reset);
 			blank <=0;
 			letra <=0; 
 		end
-		//posiciones de blank (espacios donde no se pinta)
+		//posiciones de blank (espacios donde no se pinta) 
 		else 
 		begin
-			if(Posx >= 687 || Posx <= 47 || Posy >= 512 || Posy <= 32)	blank <=1;
+			if(!((Posx >= 48  && Posx < 688) && (Posy >= 30 && Posy < 510)))	blank <= 1;
 			else blank <=0;
 			//posicion de las letras
 			//primera colomuna
