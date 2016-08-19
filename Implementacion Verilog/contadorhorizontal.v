@@ -38,7 +38,7 @@ module contadorhorizontal(Clk, Reset, cntHorizontal, vflag);
 				Horizontal <= Horizontal + 1;
 			end
 			// Controlar bandera
-			if (Horizontal == 1408) vflag <= 1'b1; // Rise flag //1320 desfase
+			if (Horizontal == 1320) vflag <= 1'b1; // Rise flag //1320 desfase
 			else vflag <= 1'b0; 
 		end
 	end

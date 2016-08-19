@@ -128,7 +128,7 @@ module controlvga_tb1;
 			Reset
 		*/
 		reset = 1;
-		$finish;
+		$stop;
 	end
       
 		
