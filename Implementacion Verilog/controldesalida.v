@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    12:47:25 08/07/2016 
+// Create Date:    12:15:06 08/07/2016 
 // Design Name: 
-// Module Name:    controldesalida 
+// Module Name:    controldecroma 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,121 +18,105 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module controldesalida(clk,ColorP,ColorL,ton,azul,rojo,verde,letra,blank);
+module controldecroma(TC,UP,down,reset,LP,ColorL,ColorP,ton,Clk);
 	//entradas
-	input clk,letra,blank;
-	input[2:0] ColorP;
-	input[2:0] ColorL;
-	input[7:0] ton;
+	input TC,LP,UP,down,reset,Clk;
 	//salidas
-	output azul,rojo,verde;
-	reg[1:0] azul;
-	reg[2:0] rojo;
-	reg[2:0] verde;
-	always@(posedge clk)
+	output ton,ColorL,ColorP;
+	reg[7:0] ton;
+	reg[2:0] ColorL;
+	reg[2:0] ColorP;
+	always @(posedge Clk)
 	begin
-		//si no es un espacio en blanco de la pantalla
-		if(~blank)
-			begin
-				//si se debe pintar una letra
-				if(letra)
-				begin
-					//si se quiere el color azul en la combinacion de colore
-					if(ColorL[2])
-						begin
-							azul[1]<=ton[7];
-							azul[0]<=ton[6];
-						end
-					//si no se desea el color azul en la combinacion de colores
-					else
-						begin
-							azul[1]<=0;
-							azul[0]<=0;
-						end
-					//si se quiere el color verde en la combinacion de colores
-					if(ColorL[1])
-						begin
-							verde[2]<=ton[5];
-							verde[1]<=ton[4];
-							verde[0]<=ton[3];
-						end
-					//sino se quiere el color verde en la combinacion de colores
-					else
-						begin
-							verde[2]<=0;
-							verde[1]<=0;
-							verde[0]<=0;
-						end
-					//si se quiere el color rojo en la combinacion de colores
-					if(ColorL[0])
-						begin
-							rojo[2]<=ton[2];
-							rojo[1]<=ton[1];
-							rojo[0]<=ton[0];
-						end
-					//sino se quiere el color rojo en la combinacion de colores	
-					else				
-						begin
-							rojo[2]<=0;
-							rojo[1]<=0;
-							rojo[0]<=0;
-						end
-				end
-				//si se desea imprimir la pantalla
-				else
-				begin
-					//si se quiere el color azul en la combinacion de colores	
-					if(ColorP[2])
-						begin
-							azul[1]<=ton[7];
-							azul[0]<=ton[6];
-						end
-					//sino se quiere el color azul en la combinacion de colores	
-					else
-						begin
-							azul[1]<=0;
-							azul[0]<=0;
-						end
-					//si se quiere el color verde en la combinacion de colores	
-					if(ColorP[1])
-					begin
-						verde[2]<=ton[5];
-						verde[1]<=ton[4];
-						verde[0]<=ton[3];
-					end
-					//sino se quiere el color verde en la combinacion de colores	
-					else
-						begin
-							verde[2]<=0;
-							verde[1]<=0;
-							verde[0]<=0;
-						end
-					//si se quiere el color rojo en la combinacion de colores	
-					if(ColorP[0])
-						begin
-								rojo[2]<=ton[2];
-								rojo[1]<=ton[1];
-								rojo[0]<=ton[0];
-						end
-					//sino se quiere el color rojo en la combinacion de colores	
-					else
-						begin
-							rojo[2]<=0;
-							rojo[1]<=0;
-							rojo[0]<=0;
-						end
-				end
-			end
+		//condiciones de inicio
+		if(reset)
+		begin
+			ton <= 8'b10100100;
+			ColorL<= 3'b000;
+			ColorP<= 3'b111;
+		end
 		else
 		begin
-			azul[1]<=0;
-			azul[0]<=0;
-			verde[2]<=0;
-			verde[1]<=0;
-			verde[0]<=0;
-			rojo[2]<=0;
-			rojo[1]<=0;
-			rojo[0]<=0;
+			//si se quiere cambiar el tono de la pantalla
+			if(TC == 1)
+			begin
+				//aumneto de tono siempre y cuando no esta al maximo
+				if(UP)
+					begin
+						case (ton)
+							8'b01001111: ton<=8'b01010001;
+							8'b01010111: ton<=8'b01011001;
+							8'b01011111: ton<=8'b01100001;
+							8'b01100111: ton<=8'b01101001;
+							8'b01101111: ton<=8'b01110001;
+							8'b01110111: ton<=8'b01111001;
+							8'b01111111: ton<=8'b10001001;
+							8'b10001111: ton<=8'b10010001;
+							8'b10010111: ton<=8'b10011001;
+							8'b10011111: ton<=8'b10100001;
+							8'b10100111: ton<=8'b10101001;
+							8'b10101111: ton<=8'b10110001;
+							8'b10110111: ton<=8'b10111001;
+							8'b10111111: ton<=8'b11001001;
+							8'b11001111: ton<=8'b11010001;
+							8'b11010111: ton<=8'b11011001;
+							8'b11011111: ton<=8'b11100001;
+							8'b11100111: ton<=8'b11101001;
+							8'b11101111: ton<=8'b11110001;
+							8'b11110111: ton<=8'b11111001;
+							8'b11111111: ton<=8'b11111111;
+							default ton=ton+1;
+						endcase
+					end
+				//disminucion del siempre y cuando no se encuente en el minimo
+				else if(down)
+					begin
+						case (ton)
+							8'b01001001: ton<=8'b01001001;
+							8'b01010001: ton<=8'b01001111;
+							8'b01011001: ton<=8'b01010111;
+							8'b01100001: ton<=8'b01011111;
+							8'b01101001: ton<=8'b01100111;
+							8'b01110001: ton<=8'b01101111;
+							8'b01111001: ton<=8'b01110111;
+							8'b10001001: ton<=8'b01111111;
+							8'b10010001: ton<=8'b10001111;
+							8'b10011001: ton<=8'b10010111;
+							8'b10100001: ton<=8'b10011111;
+							8'b10101001: ton<=8'b10100111;
+							8'b10110001: ton<=8'b10101111;
+							8'b10111001: ton<=8'b10110111;
+							8'b11001001: ton<=8'b10111111;
+							8'b11010001: ton<=8'b11001111;
+							8'b11011001: ton<=8'b11010111;
+							8'b11100001: ton<=8'b11011111;
+							8'b11101001: ton<=8'b11100111;
+							8'b11110001: ton<=8'b11101111;
+							8'b11111001: ton<=8'b11110111;
+							default ton=ton-1;
+						endcase
+					end
+				end
+			//si se quiere cambiar el color de las letras o la pantalla
+			else
+			begin
+				//cambio del color de las letras
+				if(LP)
+					begin
+						//aumento del color de las letras simpre que no este en el maximo
+						if(UP && ColorL != 3'b111) ColorL<=ColorL+1;
+						//disminucion del color de las letras siempre que no este en el minimo
+						else if(down && ColorL != 0) ColorL<=ColorL-1;
+					end
+				//cambio del color de la pantalla
+				else
+					begin
+						//aumento del color de la pantalla simpre que no este en el maximo
+						if(UP && ColorP != 3'b111)ColorP<=ColorP+1;
+						//disminucion del color de la pantalla siempre que no este en el minimo
+						else if(down && ColorP != 0)ColorP<=ColorP-1;
+					end
+				end
 		end
 	end
 endmodule
