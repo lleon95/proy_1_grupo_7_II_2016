@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module controldecroma(TC,UP,down,reset,LP,ColorL,ColorP,ton,Clk);
 	//entradas
-	input TC,LP,UP,down,reset, Clk;
+	input TC,LP,UP,down,reset,Clk;
 	//salidas
 	output ton,ColorL,ColorP;
 	reg[7:0] ton;
@@ -38,53 +38,65 @@ module controldecroma(TC,UP,down,reset,LP,ColorL,ColorP,ton,Clk);
 		else
 		begin
 			//si se quiere cambiar el tono de la pantalla
-			if(TC)
+			if(TC == 1)
 			begin
 				//aumneto de tono siempre y cuando no esta al maximo
-				if(UP && ton != 8'b11111111)
+				if(UP)
 					begin
-						ton = ton +1;
-						if(ton[0]==0&&ton[1]==0&&ton[2]==0)ton[0]=1;
-						else
-						begin
-						end
-						if(ton[3]==0&&ton[4]==0&&ton[5]==0)ton[3]=1;
-						else
-						begin
-						end
-						if(ton[6]==0&&ton[7]==0)ton[6]=1;
-						else
-						begin
-						end
+						case (ton)
+							8'b01001111: ton<=8'b01010001;
+							8'b01010111: ton<=8'b01011001;
+							8'b01011111: ton<=8'b01100001;
+							8'b01100111: ton<=8'b01101001;
+							8'b01101111: ton<=8'b01110001;
+							8'b01110111: ton<=8'b01111001;
+							8'b01111111: ton<=8'b10001001;
+							8'b10001111: ton<=8'b10010001;
+							8'b10010111: ton<=8'b10011001;
+							8'b10011111: ton<=8'b10100001;
+							8'b10100111: ton<=8'b10101001;
+							8'b10101111: ton<=8'b10110001;
+							8'b10110111: ton<=8'b10111001;
+							8'b10111111: ton<=8'b11001001;
+							8'b11001111: ton<=8'b11010001;
+							8'b11010111: ton<=8'b11011001;
+							8'b11011111: ton<=8'b11100001;
+							8'b11100111: ton<=8'b11101001;
+							8'b11101111: ton<=8'b11110001;
+							8'b11110111: ton<=8'b11111001;
+							8'b11111111: ton<=8'b11111111;
+							default ton=ton+1;
+						endcase
 					end
 				//disminucion del siempre y cuando no se encuente en el minimo
-				else if(down && ton != 8'b01001001)
-				begin
-					ton=ton-1;
-					if(ton[0]==0&&ton[1]==0&&ton[2]==0)
-						begin
-							ton[0]=1;
-							ton[1]=1;
-							ton[2]=1;
-							ton[3]=~ton[3];
-						end
-						else
-						begin
-						end
-						if(ton[3]==0&&ton[4]==0&&ton[5]==0)
-						begin
-							ton[3]=1;
-							ton[4]=1;
-							ton[5]=1;
-							if(ton[6]==0&&ton[7]==1) 
-							begin
-								ton[6]=~ton[6];
-								ton[7]=~ton[7];
-							end
-							else ton[6]=~ton[6];					
-						end
+				else if(down)
+					begin
+						case (ton)
+							8'b01001001: ton<=8'b01001001;
+							8'b01010001: ton<=8'b01001111;
+							8'b01011001: ton<=8'b01010111;
+							8'b01100001: ton<=8'b01011111;
+							8'b01101001: ton<=8'b01100111;
+							8'b01110001: ton<=8'b01101111;
+							8'b01111001: ton<=8'b01110111;
+							8'b10001001: ton<=8'b01111111;
+							8'b10010001: ton<=8'b10001111;
+							8'b10011001: ton<=8'b10010111;
+							8'b10100001: ton<=8'b10011111;
+							8'b10101001: ton<=8'b10100111;
+							8'b10110001: ton<=8'b10101111;
+							8'b10111001: ton<=8'b10110111;
+							8'b11001001: ton<=8'b10111111;
+							8'b11010001: ton<=8'b11001111;
+							8'b11011001: ton<=8'b11010111;
+							8'b11100001: ton<=8'b11011111;
+							8'b11101001: ton<=8'b11100111;
+							8'b11110001: ton<=8'b11101111;
+							8'b11111001: ton<=8'b11110111;
+							default ton=ton-1;
+						endcase
+					end
 				end
-			end
 			//si se quiere cambiar el color de las letras o la pantalla
 			else
 			begin
@@ -104,7 +116,7 @@ module controldecroma(TC,UP,down,reset,LP,ColorL,ColorP,ton,Clk);
 						//disminucion del color de la pantalla siempre que no este en el minimo
 						else if(down && ColorP != 0)ColorP<=ColorP-1;
 					end
-			end
+				end
 		end
 	end
 endmodule
