@@ -1,0 +1,500 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage[left=1.3cm,right=1.3cm,top=1.8cm,bottom=4cm]{geometry}
+\usepackage{lastpage}
+\usepackage{marginnote}
+\usepackage{wallpaper}
+\usepackage{fancyhdr}
+\setlength{\headheight}{87pt} 
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0pt} 
+\setlength{\parindent}{0cm}
+\newcommand{\tab}{\hspace*{2em}}
+\newcommand\BackgroundStructure{
+\setlength{\unitlength}{1mm}
+\setlength\fboxsep{0mm}
+\setlength\fboxrule{0.5mm}
+\put(10, 10){\fcolorbox{black}{white!10}{\framebox(192,247){}}}
+\put(10, 262){\fcolorbox{black}{white!10}{\framebox(192, 25){}}}
+}
+
+%-------------------------ENCABEZADO---------------
+\fancyhead[L]{\begin{tabular}{l r | l r}	
+\textbf{Proyecto} & 3 & \textbf{Página} & \thepage/\pageref{LastPage} \\
+\textbf{Trabajo} & Control y programación RTC con & \textbf{Actualizado en:} & 06/06/2016 \\
+\textbf{} &  picoblaze & \textbf{Revisado en:} & 07/04/2016 \\
+\textbf{Grupo} & 1 & \textbf{Diseñadores} & Johan Arrieta Solórzano \\
+\textbf{Revisado por:} & Alfonso Chacón Rodríguez & \textbf{ } & Melissa Fonseca Rodríguez 
+\end{tabular}}
+
+\begin{document}
+\AddToShipoutPicture{\BackgroundStructure}
+
+\section{Resumen} 
+La implementación de un reloj de tiempo real se puede ver simplificada mediante el uso de un microcontrolador. Utilizando el picoblaze que nos proporciona la Nexys 3 se realiza un control para el picoblaze, siempre utilizando parte de la programación realizada anteriormente como driver.\\[2ex]
+Para mejorar la interacción del usuario con el dispositivo se utiliza un teclado, para el cual se realiza el control respectivo; y para la interfaz visual se realiza una mejora utilizando imágenes en lugar de implementar toda la interfaz por medio de una ROM.\\[2ex]
+En el presente se muestra la forma de implementación de todos los cambios mencionados y además de las partes que ya estaban presentes de proyectos anteriores; desde el diagrama modular hasta la implementación y los resultados obtenidos.
+
+\section{Introducción} 
+El PicoBlaze utilizado para este proyecto es el KCPSM6 el cual es el picoblaze optimizado para el uso en la Spartan-6, Virtex-6 y dispositivos de la serie 7. KCPSM6 define un microcontrolador de 8 bits el cual puede ser incluido una o más veces en cualquier diseño de Spartan-6... Probablemente unas de las mayores fortalezas es que está 100\% embebido y requiere solo 26 segmentos lógicos y un bloque de memoria que equivale al 4.3\% de la más pequeña XC6SLX4 y tan solo 0.11\% del XC6SLX150T. Esta combinación implica que se puede decidir cuándo y dónde poner el KCPSM6 mientras desarrolla su diseño en vez de requerir algún plan previo. \cite{DatasheetPico} \\[2ex]
+La razón por la que se integra un pequeño procesador en el diseño de la FPGA se resumen en: el hardware es paralelo y los procesadores secuenciales. Por lo que convirtiendo una pequeña parte de hardware en un procesador es a menudo una forma más eficiente de implementar funciones secuenciales como máquinas de estados (especialmente las complejas) o recursos de harware a tiempo compartido cuando hay tareas bastante lentas a ser ejecutadas. También es más natural describir tareas secuenciales en software mientras que HDL es mejor describiendo harware paralelo. \cite{DatasheetPico}\\[2ex]
+Para el RTC se necesita una máquina de estados que controle los procesos de tiempo que se deben realizar en el V3023 para lograr el funcionamiento del mismo, por lo cual ésta se puede implementar en el picoblaze, lo cual simplificará a gran manera la implementación.\\[2ex]
+En cuanto a la interfaz, por lo experimentado en el proyecto pasado, realizar los cambios con los botones e interruptores que posee la Nexys es un poco grotesco. Y además la interfaz visual al realizarla toda por medio de una ROM y escalarla hace que ésta no sea tan amigable al usuario. Con estas consideraciones la implementación de la interfaz visual con imágenes y al utilizar un teclado se puede generar una interfaz más cómoda al usuario y con la cual se pueden generar cambios en la implementación del sistema general que pueden ayudar a mejorar y simplificar el diseño.
+
+\section{Objetivos}
+\begin{itemize}
+    \item Aprender el lenguaje ensambalador, utilizado para programar el picoblaze.
+    \item Controlar el circuito integrado V3023, usado para generar el RTC, mediante el uso del Picoblaze.
+    \item Utilizar la programación desarrollada en el proyecto anterior como driver para el control del RTC.
+    \item Diseñar controlador para la pantalla VGA, utilizando imágenes.
+    \item Manejar un teclado mediante el protocolo PS2.
+    \item Facilitar al usuario la manipulación de los datos del reloj mediante la implementación de un teclado.
+    \item Generar una interfaz en una pantalla, que sea amigable al usuario y fácil de interpretar.
+    \item Generar un sonido de alerta cuando el cronómetro llegue al final de su cuenta.
+\end{itemize}
+
+\section{Descripción del sistema}
+El sistema se puede dividir en cuatro subsistemas, el controlador de teclado, el controlador de la pantalla, el controlador para el RTC y el microcontrolador Picoblaze con su respectiva ROM de instrucciones. Éstos subsistemas, pueden ser desarrollados de manera separada siempre que se tenga el cuidado necesario con los datos que comparten entre los bloques. En la Fig. \ref{fig:sistema} se puede observar la composición general del sistema.
+
+\begin{figure}[hbtp]
+	\centering
+	\includegraphics[height=8.5cm, width=18cm]{FinalIm/sistema.png}
+	\caption{Diagrama de modulos principales del sistema.}
+	\label{fig:sistema}
+\end{figure}
+
+\subsection{Controlador de la pantalla}
+\subsubsection{Diagrama de primer nivel}  \label{sec:VGA_pn}
+El diagrama general del controlador de la pantalla se muestra en la Fig. \ref{fig:PrimerNivelVGA}. En ésta podemos observar que el controlador tiene 5 entradas, el reloj que nos proporciona la Nexys 3 el cual no va a ser utilizado directamente, el reset es el que coloca todos los valores internos en 0, de modo que se dé un buen funcionamiento del bloque; y las entradas llamadas id\_port, write\_strobe \textquotedblleft Data\textquotedblright son envíadas por el picoblaze. La entradas write\_strobe es la indicadora de que el picoblaze está escribiendo en el VGA, mientras que id\_port direcciona el dato al registro correspondiente, pues todos los datos que necesita el VGA son enviados por un mismo byte, por lo cual el id\_port nos indica a cual dato corresponde \textquotedblleft Data\textquotedblright.\\[2ex]
+En las salidas son las necesarias para que la pantalla funcione de la manera adecuada y además la denominada \textquotedblleft audio\textquotedblright genera la señal para que funcione el sonido requerido. El Hsync es el encargado de generar la señal de sincronización horizontal, que va a estar activa durante el tiempo necesario para que la pantalla despliegue la información de cada pixel en una columna y Vsync va a estar activa mientras pasamos por todas las filas. La información de la que se está hablando va a estar contenida en la salida llamada \textquotedblleft Color\textquotedblright, pues en Color se encuentran los 8 bits de información del color exacto que se debe desplegar en la dirección indicada por Vsync y Hsync. La salida \textquotedblleft audio\textquotedblright se genera en este bloque ya que como debe ser generada cuando se llegue el final del cronómetro se considera innecesario hacer un módulo aparte para realizar esta simple acción. 
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4cm, width=10cm]{FinalIm/Primer_nivel_VGA_v2.png}
+  \caption{Diagrama de primer nivel del VGA.}
+  \label{fig:PrimerNivelVGA}
+\end{figure}
+
+\subsubsection{Diagrama de segundo nivel} \label{sec:VGA_sn}
+Una descripción más detallada del controlador VGA se encuentra en la Fig. \ref{fig:SegundoNivelVGA}, en la que podemos observar 3 bloques: el bloque sincronizador, el generador de texto y figuras, y el rgb mux. Estas división de los bloques se realiza basándonos en el funcionamiento del controlador.\\[2ex]
+El bloque sincronizador es el encargado de generar la secuencia con la cual nos vamos a ir desplazando pixel por pixel, Hsync y Vsync. Además nos indica la dirección de pixel en la cual nos encontramos (señales pixel\_x y pixel\_y), se pueden tratar análogamente como un par ordenado. \\[2ex]
+El bloque generador de texto, figuras e imágenes es el cual, por medio de las coordenadas, va indicando que ?color? se debe poner en esa dirección, de modo que la combinación va generando la interfaz. Dependiendo de la dirección en la que se encuentre se va seleccionar una imagen; del mismo modo, dependiente de la posición, pero también dependiente de la información proveniente de la \textquotedblleft Data\textquotedblright y posicionada en el registro correcto mediante la señal id\_port si se está escribiendo en el VGA (lo cual se indica por medio de write\_strobe), se van a generar los cambios en la interfaz modificados por el paso del tiempo (cambio en la numeración generada al usar una ROM), por el cambio en la programación de tanto la fecha, el reloj o el cronómetro, o por la finalización del cronómetro. Si se da la finalización del cronómetro, también se genera la señal para que se active el audio.\\[2ex]
+El bloque llamado \textquotedblleft rgb mux\textquotedblright se encarga de colocar el color si estamos direccionados en la parte de la pantalla visible (640x480) de no ser así coloca el color negro.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=6cm, width=16cm]{FinalIm/Segundo_nivel_VGA_v2.png}
+  \caption[2doNivel]{Diagrama de segundo nivel del VGA.}
+  \label{fig:SegundoNivelVGA}
+\end{figure}
+
+\subsubsection{Diagrama de tercer nivel}
+Como se observa en la Fig. \ref{fig:SegundoNivelVGA} el controlador de VGA posee cinco entradas las cuales son tratadas y utilizadas de modo que se generen las cuatro salidas. Sin embargo los bloques que se muestran en esta figura son bastante amplios, por lo cual en la Fig. \ref{fig:TercerNivelVGA} se muestra un diagrama más específico. \\[2ex]
+Como se puede observar en la Fig. \ref{fig:TercerNivelVGA} se conservan los bloques generales mencionados en la sección \ref{sec:VGA_sn} pero se muestra lo que ellos contienen.\\[2ex]
+Dentro del bloque sincronizador se encuentra: el contador y el sincronizador. El contador realiza la función de reducir el reloj, proporcionado por la Nexys 3, de 100 MHz a 25 MHz; pues necesitamos 25 MHz para el ritmo de pixel a modo de poder correr los 800 pixeles por línea, 525 líneas por pantalla y unas 60 pantallas por segundo. Mientras que el sincronizador realiza la función de ir recorriendo, pixel por pixel, la pantalla, permitiéndonos ubicar cada pixel que \textquotedblleft señala\textquotedblright y poder generar imágenes con esa información. De la misma forma, las señales de sincronización, tanto vertical como horizontal, permiten a la pantalla, conectada por VGA, ir ubicando cada pixel y desplegando en él la información de color que le indiquemos.\\[2ex]
+En el bloque generador de texto, figuras e imágenes se tienen varios módulos: registros y handshake, decodificador de caracteres e imágenes, audio y la memoria de fuente ROM. \\[2ex]
+Los registros y handshake se encargan de colocar el \textquotedblleft Data\textquotedblright, el cual es un byte, en el registro provisional correspondiente siempre y cuando se indique que se está escribiendo, por medio de la entrada write\_strobe, y la dirección de escritura es proporcionada por la entrada id\_port corresponda a las seleccionadas y especificadas, estas dos últimas entradas son generadas en el picoblaze; además este bloque se encarga de guardar en los registros los datos provisionales si se indica un handshake, lo cual significa que se ha terminado de escribir y todos los datos provisionales son los actuales. \\[2ex]
+El decodificador de caracteres e imágenes se encarga de colocar la información correspondiente en la pantalla, dependiendo tanto de la dirección del pixel como de la información recolectada del picoblaze. En este módulo se combina tanto la parte de la generación de las imágenes como la parte del texto ambas generadas por procesos diferentes y combinadas mediante el uso de un tipo de multiplexor. Las direcciones que envía el picoblaze por medio del id\_port y su correspondiente registro se describen en la Tabla \ref{tab:id_por_reg}\\[2ex]
+El audio es un pequeño módulo que se encarga de generar la frecuencia con la cual suena un buzzer cuando el cronómetro ha llegado a su fin, lo que implica que hay un tipo de sincronización con el \textquotedblleft Data\textquotedblright visual mostrado en pantalla; éste se estima de manera tal que tarde aproximadamente 8 segundos sonando que el mismo tiempo que el \textquotedblleft ring\textquotedblright visual se va a mostrar.\\[2ex]
+La memoria de fuente ROM es la que contiene los números y unas pocas letras que van a ser utilizadas para exponer los datos del reloj, esta memoria se encuentra diseñada para trabajar con un tamaño de letra de 16x32, de trabajarse con un mayor tamaño, escalarse, la numeración pierde detalle. \\[2ex]
+Con todos los bloques descritos anteriormente se pretende lograr a formar una interfaz como la mostrada en la Fig. \ref{fig:Interfaz}, pero que además de ello incluya los números provenientes de la ROM. Este fondo se considera apropiado y amigable para el usuario.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=7cm, width=16cm]{FinalIm/Tercer_nivel_VGA_v3.png}
+  \caption[3erNivel]{Diagrama de tercer nivel del VGA.}
+  \label{fig:TercerNivelVGA}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=7cm, width=9cm]{FinalIm/fondo_general.png}
+  \caption[3erNivel]{Interfaz del VGA.}
+  \label{fig:Interfaz}
+\end{figure}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Dirección de escritura y su correspondiente registro}
+    \begin{tabular}{c|c}
+      Registro & Dirección \\
+      \hline
+      \hline
+      Decenas del año & 0x04 \\
+      Unidades del año & 0x05 \\
+      Decenas del mes & 0x06 \\
+      Unidades del mes & 0x07 \\
+      Decenas del día & 0x08 \\
+      Unidades del día & 0x09 \\
+      Decenas hora del reloj & 0x0a \\
+      Unidades hora del reloj & 0x0b \\
+      Decenas minuto del reloj & 0x0c \\
+      Unidades minuto del reloj & 0x0d \\
+      Decenas segundo del reloj & 0x0e \\
+      Unidades segundo del reloj & 0x0f \\
+      Decenas hora del cronómetro & 0x10 \\
+      Unidades hora del cronómetro & 0x11 \\
+      Decenas minuto del cronómetro & 0x12 \\
+      Unidades minuto del cronómetro & 0x13 \\
+      Decenas segundo del cronómetro & 0x14 \\
+      Unidades segundo del cronómetro & 0x15 \\
+      Formato hora y am\_pm & 0x16 \\
+      Dirección del cursor & 0x17 \\
+      Dato a programar & 0x18 \\
+      Handshake & 0x19 \\
+      Decenas hora del cronómetro programadas & 0x1a \\
+      Unidades hora del cronómetro programadas & 0x1b \\
+      Decenas minuto del cronómetro programadas & 0x1c \\
+      Unidades minuto del cronómetro programadas & 0x1d \\
+      Decenas segundo del cronómetro programadas & 0x1e \\
+      Unidades segundo del cronómetro programadas & 0x1f \\
+      Fin del cronómetro & 0x20 \\
+    \end{tabular}
+    \label{tab:id_por_reg}
+\end{table}
+
+\subsection{Controlador del Teclado}
+Para poder controlar el teclado, que se comunica por medio del protocolo PS2, se necesita comprender el funcionamiento del mismo. Éste posee dos señales que envía: un reloj y los datos en serie. Cuando se envía el dato el reloj debe estar en alto por lo cual debemos realizar un \textquotedblleft PULLUP\textquotedblright en el mismo y también en los datos, ya que se pueden enviar o recibir datos del mismo. En este caso sólo se reciben datos del mismo pero aún así se debe realizar este \textquotedblleft PULLUP\textquotedblright. Comprendiendo mejor el funcionamiento del teclado se realizan los diagramas de bloques que se muestran a continuación. 
+
+\subsubsection{Diagrama de primer nivel}
+El lector de teclado es el que se encarga de tomar el dato que viene en serie y convertirlo al byte necesario para ser manejado por el PicoBlaze y además decodificará el dato, el teclado es la entrada de este módulo, el cual genera por sí mismo dos señales, el reloj y el dato. A la salida del módulo encontramos una interrupción, la cual va a indicar al picoBlaze que hay una tecla que se presionó, es aquí donde se nota la importancia de la decodificación, ya que con ella evitamos estar enviando interrupciones al picoblaze cuando cualquier tecla se presiona, sin importar que sea o no las teclas que se utilizan. Mientras que \textquotedblleft Tecla\textquotedblright posee el código de la tecla que se ha presionado. En la Fig. \ref{fig:PrimerNivelTeclado} se muestra el diagrama general de lo anteriormente descrito.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=3cm, width=10cm]{FinalIm/PrimerNivelTeclado_v2.png}
+  \caption[1erNivel]{Diagrama de primer nivel del Teclado.}
+  \label{fig:PrimerNivelTeclado}
+\end{figure}
+
+\subsubsection{Diagrama de segundo nivel}
+En este diagrama mostrado en la Fig. \ref{fig:SegundoNivelTeclado} se muestra como se pretende realizar el lector de teclado, el cual consiste en tan solo tres bloques.\\[2ex]
+En el receptor de dato se toma el dato que viene en serie y se guarda en un registro, en donde ya se obtienen los 11 bits que nos envía el teclado. De este se obtiene el byte que contiene el dato y también una bandera que indica cuando se ha terminado de leer el dato.\\[2ex]
+En el detector de tecla se evalúa si el dato que se obtiene del teclado indica que una tecla ha sido presionada, y se obtiene el código de esa tecla. En el PS2 cuando se presiona y se suelta una tecla se obtiene el código en hexadecimal 1c f0 1c, en donde 0x1c denota el código de la tecla y 0xf0 indica que se ha dejado de presionar esa tecla, por lo cual se busca identificar el código 0xf0 para guardar el dato 0x1c que es la tecla en interés. La salida del bloque es la tecla que se acaba de presionar, pero antes de esto también se envía el código 0xf0 para que cada vez que se suelta una tecla el siguiente bloque conozca esta información, ésto por la lógica del bloque \textquotedblleft decodificador de tecla\textquotedblright.\\[2ex]
+El decodificador de tecla va a asegurar que las teclas que se presionan son las que se van a utilizar, de modo que se asegure que cuando se manda la interrupción al picoblaze sea debido a una tecla de las que son utilizadas. En este bloque se encuentran unos flip-flop's tipo D, los cuales nos van a ayudar a generar la lógica, debido a que éstos van actualizando sus datos cada ciclo de reloj y se van pasando la información de uno a otro si tan solo se manda el dato se la tecla que se acaba de soltar y no se manda el 0xf0, de presionarse consecutivamente la misma tecla este bloque no envía la señal de interrupción al picoblaze, por lo cual no se genera un correcto funcionamiento. En el mapeo de memoria de lectura del Picoblaze el dato de Tecla es leído en la dirección 0x04.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=7cm, width=16cm]{FinalIm/SegundoNivelTeclado_v2.png}
+  \caption[1erNivel]{Diagrama de segundo nivel del Teclado.}
+  \label{fig:SegundoNivelTeclado}
+\end{figure}
+
+\subsection{Controlador del RTC}
+Para la implementación de esta interfaz que va a permitir la comunicación entre el micro y el RTC, se desarrolló un bloque que permite leer y escribir datos, basado en los tiempos ajustados en el proyecto anterior, de manera que el Picoblaze indique la dirección, el dato a escribir en caso de escritura y si se debe escribir o leer, este bloque a su vez va a indicar mediante una bandera que ha terminado de realizar el debido proceso para que se pueda leer el dato extraído y se pueda proseguir con la siguiente acción sobre el RTC. A continuación en la Fig. \ref{fig:rtcp} se muestra un diagrama donde se especifican los componentes que componen este bloque.\\[2ex]
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=9cm, width=16cm]{FinalIm/rtcp.png}
+  \caption[3erNivel]{Diagrama de tercer nivel del controlador del RTC.}
+  \label{fig:rtcp}
+\end{figure}
+Cuando el Picoblaze realiza una escritura, especifica la dirección con el id\_port y con el write-f indica que se está escribiendo, además entrega el dato en el bus dpico, cuando se escribe la función correspondiente a lectura o escritura, se habilita el contador para que en conjunto con el decodificador se vayan alternando las señales de control, PUP que es la señal de alta impedancia y el dato de ready que indica al micro que puede proseguir con la siguiente acción. Con los registros se almacenan los datos de dirección, dato de escritura, función, dato extraído y un byte que indica el estado de la bandera de ampm y el formato del reloj al momento de la lectura. Con el deco se habilita la carga del registro del dato extraído, la cuenta y la salida del mux especificando si debe ser dirección, dato o unos. En la Tabla \ref{tab:id_regrtc} se detalla el mapeo de memoria respectivo para el controlador del RTC.
+
+\begin{table}[htb]
+    \centering
+    \caption{Mapeo de memoria del controlador del RTC}
+    \begin{tabular}{c|c}
+      Registro & Dirección \\
+      \hline
+      \hline
+      Escritura & \\
+      Dirección & 0x00 \\
+      Función & 0x01 \\
+      Decenas del DatoW & 0x02 \\
+      Unidades del DatoW & 0x03 \\
+      \hline
+      Lectura & \\
+      Decenas del DatoExt & 0x00 \\
+      Unidades del DatoExt & 0x01 \\
+      AmPmFormato & 0x02 \\
+      ListoRTC & 0x03 \\
+    \end{tabular}
+    \label{tab:id_regrtc}
+\end{table}
+
+\subsection{ROM de Instrucciones}
+En el diseño de la ROM de instrucciones, deben quedar muy claras las rutinas a desarrollar para que estas sean llamadas en una rutina principal según las condiciones dadas por el usuario mediante el uso de teclas, por lo que también se debe desarrollar la programación que obtenga estas teclas utilizando la facilidad que nos brinda la rutina de interrupción. A continuación en la Fig. \ref{fig:rutinap} se muestra el diagrama que explica el comportamiento de la rutina principal.\\[2ex]
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=14cm, width=12cm]{FinalIm/diagramaP.png}
+  \caption[dp]{Diagrama de flujo de instrucciones principal.}
+  \label{fig:rutinap}
+\end{figure}
+La Fig. \ref{fig:rutinap} nos da una noción del proceso bajo el que va a operar el sistema, pero es necesario detallar las subrutinas llamadas en este programa principal por lo que seguidamente se va a explicar el funcionamiento de dichas subrutinas con sus respectivos diagramas.
+
+\subsubsection{Ini\_rtc}
+Esta rutina se encarga de inicializar el RTC bajo el respectivo proceso indicado en la hoja de datos que implica la escritura de ciertas variables por lo que se utiliza el controlador del RTC, esta rutina a su vez tiene incluida la rutina inicrRTC que se encarga de la  escritura de ceros en los datos del cronómetro, para que este inicie en cero, en la Fig. \ref{fig:inirtc} se puede ver que es un proceso sencillo.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=6cm, width=5cm]{FinalIm/d_inirtc.png}
+  \caption[dp]{Diagrama de flujo de inirtc.}
+  \label{fig:inirtc}
+\end{figure}
+
+\subsubsection{Ini\_variables}
+Esta rutina se encarga de escribir ceros en los espacios de memoria donde se almacenan las teclas y en el byte que indica la finalización del cronómetro, esto con tal de evitar que se evalúe basura almacenada en estos datos.
+
+\subsubsection{Leer\_rtc}
+Con esta rutina se van a leer los datos de hora, fecha y cronómetro para que sean mostrados en la pantalla al usuario, también se van a extaer los datos referentes al formato y estado del cronómetro para que cuando se presione la tecla correspondiente se cambien dicho estado en base al actual. En la Fig. \ref{fig:read_rtc} se muestra el desarrollo de esta rutina.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=7cm, width=5.5cm]{FinalIm/read_rtc.png}
+  \caption[dp]{Diagrama de flujo de Leer\_rtc.}
+  \label{fig:read_rtc}
+\end{figure}
+
+\subsubsection{Escribir datos en el VGA}
+Esta rutina toma los datos almacenados en la memoria del Picoblaze de la hora, fecha, cronómetro, un byte que define el formato y si la hora es am o pm, además de los datos que sindican si se debe mostrar el cursor y en que posición. Básicamente carga dichos datos y los escribe en el modulo VGA basado en el mapeo de memoria de los periféricos.
+
+\subsubsection{Prog\_hora, Prog\_fecha y Prog\_crono }
+Se encargan de evaluar si se presiona alguna flecha o numero para desplazar el cursor o modificar el digito en el cual esta ubicado el cursor en ese momento, además verifica constantemente si se ha presionado la tecla escape para dar por terminada la rutina, como son procesos similares, se va a mostrar solamente el diagrama de programación de la hora en la Fig. \ref{fig:Phora}
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=11cm, width=5.5cm]{FinalIm/camb_hora.png}
+  \caption[dp]{Diagrama de flujo de Prog\_hora.}
+  \label{fig:Phora}
+\end{figure}
+
+\subsubsection{Camb\_formato y Camb\_cronoini}
+Dado que los bits que definen si el formato de la hora es de 24 o 12 horas y si el cronometro debe contar o no, se encuentran en la misma posición de memoria de estatus del RTC, cuando se cambia alguno de los dos se debe escribir un byte que contiene ambos, por lo que las rutinas de cambiar formato y cronoini toman en cuenta el bit referente a la variable a modificar, lo niegan y escriben en el RTC dicho byte, en la Fig. \ref{fig:Cfor} se muestra el proceso para cambiar el formato, similar al de cambiar cronoini.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=10cm, width=2cm]{FinalIm/camb_formato.png}
+  \caption[dp]{Diagrama de flujo de Camb\_formato.}
+  \label{fig:Cfor}
+\end{figure}
+
+\subsubsection{Escribir\_RTC}
+En caso de que se hayan cambiado los datos de la hora o fecha, se deben actualizar los datos en el RTC por lo que con esta rutina se realiza esta acción, actualiza los datos de hora, fecha y cronómetro, de esta forma se implementa el efecto de pausar la cuenta del reloj cuando se programa alguna de estas variables. En la Fig. \ref{fig:Wrtc} se muestra este proceso de escritura.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=8cm, width=5cm]{FinalIm/write_rtc.png}
+  \caption[dp]{Diagrama de flujo de Escribir\_RTC.}
+  \label{fig:Wrtc}
+\end{figure}
+
+\subsubsection{Comp\_crono}
+Esta rutina carga los datos programados por el usuario del cronómetro y los datos leídos del RTC y escribe en una posición de memoria 0XFF si son iguales y 0X00 si don distintos, de esta manera se determina cuando el cronómetro llego a su fin para que este sea detenido con la rutina camb\_cronoini, reiniciado con inicrRTC y mostrado en pantalla con Escribir\_Ring que escribe en un registro del módulo de VGA para que realice la respectiva alarma.
+
+\subsubsection{Lectura de tecla}
+Cuando una tecla es presionada, el controlador del teclado indica esta acción mediante la entrada de interrupción del Picoblaze, de esta forma el micro ingresa a esta rutina encargada de leer la tecla y clasificarla, de esta forma la tecla puede ser evaluada en las demás rutinas, en el diagrama de la Fig. \ref{fig:Ltecla} se muestra en que consiste este proceso.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=8cm, width=7cm]{FinalIm/lecturatecla.png}
+  \caption[dp]{Diagrama de Lectura de tecla.}
+  \label{fig:Ltecla}
+\end{figure}
+
+\section{Datos y resultados}
+\subsection{Simulaciones}
+Se realizan varias simulaciones del control de VGA en donde se va a notar como sucede el proceso de guardar los datos y la función del handshake. Además, se encuentran simulaciones donde se muestra el correcto funcionamiento de la sincronización.\\[2ex]
+En la Fig. \ref{fig:CambiosSenalesVGA} se puede notar el cambio en algunas de las señales, esta figura tiene especial énfasis en que se note pix\_x, el cual nos identifica en cual pixel de la coordenada x nos encontramos, y PT que es la señal de reloj para el VGA (25 MHz). En la Fig. \ref{fig:CambiosSenalesVGA2} se puede apreciar el cambio en pix\_y, que es el pixel en la coordenada y en el que nos encontramos, hsincro, que es la señal de sincronía horizontal, ON\_VID, que nos indica cuando estamos dentro de los 640x480, y color\_salida, que es el color que se coloca en la pantalla en cada pixel que nos encontramos (0x49 es un tipo de gris y 0x00 es negro). Si realizamos un acercamiento a esta imagen podemos verificar que cuando se den los cambios en las señales hsincro y ON\_VID en los pixeles indicados, lo cual podemos ver en la Fig. \ref{fig:CambiosSenalesVGA2_closeup} en la cual podemos notar en la parte izquierda unos valores que indican el valor de cada variable en donde está posicionado el cursor y con este valor podemos verificar algunos de las características. En la Fig. \ref{fig:CambiosSenalesVGA2_faraway} se puede observar cuando vsincro se pone en bajo, esta señal corresponde a la señal de sincronización vertical, lo cual sucede durante un pequeño lapso casi al final de la cuenta vertical.\\[2ex]
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4cm, width=18cm]{FinalIm/CambioSenialesVGA.PNG}
+  \caption[sim]{Cambio en las señales del VGA, énfasis generación del pix\_x y PT.}
+  \label{fig:CambiosSenalesVGA}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4cm, width=18cm]{FinalIm/CambioSenialesVGA2.PNG}
+  \caption[sim]{Cambio en las señales del VGA, énfasis generación del pix\_y, hsincro, ON\_VID y color\_salida.}
+  \label{fig:CambiosSenalesVGA2}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4cm, width=18cm]{FinalIm/CambioSenialesVGA2_closeup.PNG}
+  \caption[sim]{Acercamiento de la Fig. \ref{fig:CambiosSenalesVGA2}} 
+  \label{fig:CambiosSenalesVGA2_closeup}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4cm, width=18cm]{FinalIm/CambioSenialesVGA2_faraway.PNG}
+  \caption[sim]{Cambio en las señales del VGA, énfasis generación del vsincro.}
+  \label{fig:CambiosSenalesVGA2_faraway}
+\end{figure}
+Luego nos aseguramos del funcionamiento del handshake y los registros. La primera de ellas es la que se muestra en la Fig. \ref{fig:MovimientoDatos} en la cual podemos observar como se van ingresando los datos en los correspondientes registros provisionales si el write\_strobe se encuentra en alto; estos datos se guardan en las direcciones que indica el id\_port las cuales corresponden a los registros o datos indicados en la Tabla \ref{tab:id_por_reg}. Si alejamos un poco la simulación obtenemos la Fig. \ref{fig:MovimientoDatos2} en la cual podemos ver el cambio de todos los registros provisionales. En la Fig.\ref{fig:MovimientoDatosGuardar} se muestra que cuando hay un handshake en 0xff entonces los datos se pasan de los registros provisionales a los registros de los cuales los demás bloques toman la información para interpretarla.\\[2ex]
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[angle=90, height=22cm, width=11cm]{FinalIm/MovimientoDatos.PNG}
+  \caption[sim]{Simulación del movimiento de datos en los registros provisionales.}
+  \label{fig:MovimientoDatos}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[angle=90, height=22cm, width=11cm]{FinalIm/MovimientoDatos2.PNG}
+  \caption[sim]{Simulación del movimiento de datos en todos los registros provisionales.}
+  \label{fig:MovimientoDatos2}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[angle=90, height=22cm, width=14cm]{FinalIm/MovimientoDatosGuardar.PNG}
+  \caption[sim]{Simulación de guardar los datos.}
+  \label{fig:MovimientoDatosGuardar}
+\end{figure}
+Para asegurar el correcto funcionamiento del teclado se realizan varias simulaciones. Una de ellas es la simulación de detección de tecla, mostrada en la Fig. \ref{fig:DeteccionTecla}, en donde vemos que después de que se nota un 0xf0 se envía esta tecla seguida de la tecla que se soltó, y notamos que hasta que la bandera scan\_done\_tick indique que ya se han terminado de leer los datos no ocurre ningún proceso, no se pasa la tecla a la salida; también se puede observar que hasta que no exista un 0xf0 no se lee nada. En la Fig. \ref{fig:DecodificacionTecla} se muestra la simulación de la decodificación de la tecla, en donde podemos observar que si la tecla no es la correcta no se envía la interrupción aunque en los flip-flops se tengan datos distintos, cuando se indique que la tecla es la correcta (la tecla es una de las dispuestas a utilizar) y si en los flip-flops hay datos de teclas distintas se genera la interrupción la cual se va a mantener activa hasta que el pucoblaze envíe la señal de paro de interrupción; también se puede observar que si hay una interrupción y el picoblaze no ha enviado el paro suceda lo que suceda con los demás procesos (tecla correcta y flip-flops con distintos datos) no va a ocurrir nada.\\[2ex]
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4cm, width=18cm]{FinalIm/DeteccionTecla.PNG}
+  \caption[sim]{Simulación de la detección de una tecla.}
+  \label{fig:DeteccionTecla}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4cm, width=18cm]{FinalIm/DecodificacionTecla.PNG}
+  \caption[sim]{Simulación de la decodificación de una tecla.}
+  \label{fig:DecodificacionTecla}
+\end{figure}
+Para corroborar el funcionamiento del Picoblaze se realizó la respectiva simulación contemplando las señales que interactúan con los periféricos, en la Fig. \ref{fig:simpico} se puede ver cómo se comportan las señales de read y write en conjunto con el in\_port y out\_port mientras transcurren las instrucciones brindadas por la ROM.\\[2ex]
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=4.5cm, width=18cm]{FinalIm/simpico.png}
+  \caption[sim]{Simulación de señales del Picoblaze.}
+  \label{fig:simpico}
+\end{figure}
+De igual forma se simuló el comportamiento del controlador del RTC en conjunto con el Picoblaze para observar el cumplimiento de tiempos en las señales de control, dirección y adquisición del dato, en las Fig. \ref{fig:rdrtc} y \ref{fig:wrrtc} se puede observar los procesos de lectura y escritura que cumplen con los tiempos ajustados según el proyecto anterior.
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=5cm, width=18cm]{FinalIm/rd_rtc.png}
+  \caption[sim]{Simulación de lectura del RTC.}
+  \label{fig:rdrtc}
+\end{figure}
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=5cm, width=18cm]{FinalIm/wr_rtc.png}
+  \caption[sim]{Simulación de escritura del RTC.}
+  \label{fig:wrrtc}
+\end{figure}
+
+\subsection{Mediciones}
+Para este apartado se van a tomar en cuenta el resultado del análisis del consumo de potencia del dispositivo y consumo de recursos dado que en el proyecto anterior quedo claro con las mediciones realizadas que se cumplía con los tiempos necesarios para controlar el RTC. En la Tabla \ref{tab:consumo} se pueden ver los datos de consumo del dispositivo, los de potencia se obtienen al utilizar la herramienta llamada XPower Analyzer.
+
+\begin{table}[htb]
+    \centering
+    \caption{Consumo de recursos de la FPGA}
+    \begin{tabular}{c|c}
+      Recurso & Consumo \\
+      \hline
+      \hline
+      Potencia & 28mW \\
+      slices ocupadas & 98\% \\
+      Registros & 3\% \\
+      MUX & 3\% \\
+      IO & 14\% \\
+      LUTs lógicos & 81\% \\
+      LUT FF & 7501\\ 
+      DSP48A1 & 56\% \\
+    \end{tabular}
+    \label{tab:consumo}
+\end{table}
+
+\section{Análisis de datos y resultados}
+En el desarrollo de este proyecto se contempló primeramente integrar el manejo del RTC por completo en el microcontrolador, pero dado que los tiempos de reloj no coinciden y para poder hacer algo funcional se requiere de una gran cantidad de instrucciones, además de que se menciona que el picoblaze no puede realizar control sobre tiempos críticos, se optó por desarrollar el módulo controlador del RTC que permite leer y escribir y de esta forma se simplifico el diseño y la cantidad de instrucciones en la ROM destinadas a controlar este dispositivo.\\[2ex]
+De igual forma no se implementó el cronómetro de forma descendente porque esto requiere de un módulo más para realizar una resta BCD, debido a que este es el formato en que entrega los datos el RTC, pero la forma en que se desarrolló deja claro al usuario la cuenta y el límite respectivo.\\[2ex]
+Se presentaron algunos otros problemas relacionados con pulgas en la programación, algunas de las cuales eran generadas por faltas de consideraciones, en lo que concierne a la programación en ensamblador se dieron pocos problemas dato que la herramienta de simulación facilitó y agilizó el proceso de diseño.\\[2ex]
+Debido a los tiempos entre instrucciones que maneja el picoblaze, se tiene que realizar un handshake de forma diferente a lo realizado en el proyecto anterior, además de la forma en que se implementó el ring; esto genera un cambio en la lógica que ocasiona algunas pulgas, que se logran solucionar.\\[2ex]
+En el caso del controlador de la pantalla VGA, parte de la programación se basa en lo desarrollado en el libro de Pong Chu \cite{PongChu}, la parte de los números, es decir la parte de usar la ROM además de la sincronización. Mientras que la parte de las imágenes se realiza utilizando información encontrada en la web. Al generar el controlador se observa la gran diferencia respecto al proyecto anterior. Los problemas que se presentaron con este controlador no tuvieron que ver con la programación sino con la estética, pues se sufrió con los colores, puesto que la programación de Matlab que convierte las imágenes en archivos que pueden ser interpretados por la FPGA tenía un error, el cual al detectarlo dejó de afectar en la modificación de los colores. \\[2ex]
+Sin embargo, por la cantidad de espacio con la que cuenta la Nexys 3 como memoria RAM se tiene que reducir el tamaño de las imágenes, lo cual es un problema menor que no afecta visualmente si se vuelven a dimensionar las imágenes de forma que se continuen viendo agradables. Como se muestra en la Fig. \ref{fig:Res_interfaz} se obtiene una interfaz muy similar a lo planeado y esperado (Fig. \ref{fig:Interfaz})\\[2ex]
+De esta parte lo que causó más problema fue el ring, pues se tuvo que cambiar parte de la lógica cuando ya se estaba finalizando el proyecto lo que cambiaba a su vez la forma en que se podía generar el ring, sin embargo, se logró generar. Al tener ya listos el ring generar el sonido fue una cuestión nada más de generar el reloj que lo controlaba.\\[2ex]
+El controlador del teclado también se basó en lo que nos muestra el Pong Chu \cite{PongChu}, pero se le agregaron los bloques que son propios de la forma de la lógica del resto del circuito. Como se puede ver en las simulaciones funciona a la perfección y en la práctica el teclado no tiene ningún problema.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[height=7cm, width=9cm]{FinalIm/Resultado_interfaz.png}
+  \caption[3erNivel]{Resultado de la interfaz del VGA.}
+  \label{fig:Res_interfaz}
+\end{figure}
+
+\section{Hoja de datos de unidades desarrolladas}
+Dentro de las especificaciones finales se puede mencionar el uso del clock de 100 MHz de la Nexys 3, toda la lógica implementada opera bajo lógica positiva. En la tabla \ref{tab:Espec} se pueden observar los pines utilizados en la Nexys 3 para realizar las conexiones con el V3023 y parte de la interfaz con el usuario (VGA y teclado)
+
+\begin{table}[htbp]
+    \centering
+    \caption{Asignación de pines de las entradas y salidas}
+    \begin{tabular}{c||c||c||c}
+    Señal & Designación & Pin & Función\\
+    \hline
+    \hline
+    CLOCK\_NEXYS & input & V10 & Señal de reloj de la Nexys 4, es de 100MHz. \\
+    PS2C & input & L12 & Señal de reloj del teclado\\
+    PS2D & input & J13 & Datos en serie del teclado \\
+    DATA\_IN[7] & input & F2 & Bit de datos y direcciones de entrada. \\
+    DATA\_IN[6] & input & J6 & Bit de datos y direcciones de entrada. \\
+    DATA\_IN[5] & input & J7 & Bit de datos y direcciones de entrada. \\
+    DATA\_IN[4] & input & G1 & Bit de datos y direcciones de entrada. \\
+    DATA\_IN[3] & input & G3 & Bit de datos y direcciones de entrada. \\
+    DATA\_IN[2] & input & K6 & Bit de datos y direcciones de entrada. \\
+    DATA\_IN[1] & input & L7 & Bit de datos y direcciones de entrada. \\
+    DATA\_IN[0] & input & H3 & Bit de datos y direcciones de entrada. \\
+    \hline
+    DATA\_OUT[7] & output & K5 & Bit de datos y direcciones de salida. \\
+    DATA\_OUT[6] & output & K3 & Bit de datos y direcciones de salida. \\
+    DATA\_OUT[5] & output & J1 & Bit de datos y direcciones de salida. \\
+    DATA\_OUT[4] & output & J3 & Bit de datos y direcciones de salida. \\
+    DATA\_OUT[3] & output & L3 & Bit de datos y direcciones de salida. \\
+    DATA\_OUT[2] & output & L4 & Bit de datos y direcciones de salida. \\
+    DATA\_OUT[1] & output & K1 & Bit de datos y direcciones de salida. \\
+    DATA\_OUT[0] & output & K2 & Bit de datos y direcciones de salida. \\
+    COLORES[0]  & output & R7 & Bit para color azul. \\
+    COLORES[1]  & output & T7 & Bit para color azul. \\
+    COLORES[2]  & output & P8 & Bit para color verde. \\
+    COLORES[3]  & output & T6 & Bit para color verde. \\
+    COLORES[4]  & output & V6 & Bit para color verde. \\
+    COLORES[5]  & output & U7 & Bit para color rojo. \\
+    COLORES[6]  & output & V7 & Bit para color rojo. \\
+    COLORES[7]  & output & N7 & Bit para color rojo. \\
+    H\_syncro  & output & N6 & Sincronización horizontal. \\
+    V\_syncro  & output & P7 & Sincronización vertical. \\
+    R\_D  & output & V12 & Señal para leer. \\
+    C\_S  & output & P11 & Señal de selección. \\
+    W\_R  & output & T12 & Señal para escribir. \\
+    A\_D  & output & N10 & Selecciona entre dirección y dato. \\
+    sound & output & G11 & Sonido.\\
+    \end{tabular}
+    \label{tab:Espec}
+\end{table}
+
+\section{Conclusiones y recomendaciones}
+\subsection{Conclusiones}
+\begin{itemize}
+    \item El uso de un microcontrolador de softcore como el Picoblaze facilita en gran medida el manejo de sistemas que hacen uso de más de un periférico y permiten que el sistema completo sea más organizado, además de facilitar el diseño en sí.
+    \item Utilizar software libre para el desarrollo de ciertas aplicaciones, como el controlador VGA y parte del controlador de teclado  simplifica el diseño, ahorra tiempo y permite utilizar ese tiempo en la optimización del diseño, lo cual es muy importante en todos los ámbitos, pues nos va a permitir tener un mejor diseño e inclusive uno más funcional.
+    \item El buen diseño de las distintas interfaces para los periféricos es la clave para una correcta comunicación entre dispositivos y una programación en ensamblador simplificada.
+    \item El uso del conteo ascendente en el cronómetro redujo el hardware utilizado y para el usuario es comprensible por completo la mecánica de esta funcionalidad.
+    \item Utilizar imágenes para la generación de la interfaz visual hace más amena la experiencia del usuario con el dispositivo, a diferencia de utilizar un despliegue de pixeles escalado, que hace que se vea más cuadriculada la imagen y, por ende, antiestética.
+    \item Generar la manipulación de los datos del reloj por medio de un teclado hace más agradable la experiencia del usuario, además de que evita errores por ruido, como se experimentó en proyectos pasados.
+\end{itemize}
+
+\subsection{Recomendaciones}
+\begin{itemize}
+    \item En caso de utilizar un microcontrolador como el Picoblaze es necesario dedicar un tiempo considerable a la lectura y comprensión de todos los aspectos a considerar, incluidos en el manual y la forma de programar e implementar la ROM de instrucciones, todo esto para minimizar errores futuros.
+    \item Utilizar software libre para realizar el diseño del controlador de la pantalla, pues es software libre que funciona de forma correcta y que nos funciona para la función que necesitamos.
+    \item Utilizar métodos de apoyo para la programación, como lo son los diagramas de estados, de modo que se simplifique la generación de código cuando ya se tenga bien claro el funcionamiento de los componentes y como se deben comportar según lo seleccionado en estos diagramas.
+    \item Utilizar herramientas alternativas como FIDEX en el caso de la programación en ensamblador, ya que aunque maneja una sintaxis distinta, permite simular las diferentes rutinas de manera muy sencilla.
+    \item Tener una buena comunicación entre los miembros del equipo, para evitar errores en la programación, los cuales causan atrasos que se pueden haber evitado si se comunica de forma efectiva la forma de manejar los datos.
+    \item Conocer las capacidades de la plataforma de trabajo para evitar que después de haber realizado un diseño en la interfaz visual en la que se requerían muchas imágenes, se tenga que cambiar debido a que la plataforma de trabajo no tiene la capacidad para trabajar con tantas imágenes.
+    \item Generar simulaciones minuciosas para corroborar el funcionamiento del software o hardware programado, pues al realizar esto se ahorra considerable tiempo en el momento de encontrar errores o detalles de funcionamiento.
+\end{itemize}
+
+\begin{thebibliography}{3}
+\bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
+\bibitem[1]{DatasheetPico}
+Chapman, K. (2014)
+\newblock \emph{PicoBlaze for Spartan-6, Virtex-6, 7-Series, Zynq and UltraScale Devices (KCPSM6)},
+\newblock Xilinx, Inc.
+
+\bibitem[2]{PongChu}
+Chu, Pong P. (2008)
+\newblock \emph{FPGA prototyping by Verilog examples. Xilinx SpartanTM-3 Version},
+\newblock John Wiley \& Sons, Inc.
+
+\end{thebibliography}
+
+\end{document}
