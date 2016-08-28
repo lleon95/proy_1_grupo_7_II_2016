@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.8.27)  27 AUG 2016 18:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.8.27)  28 AUG 2016 10:38
 entering extended mode
 **./Informe.tex
 (Informe.tex
@@ -120,6 +120,9 @@ Package: lastpage 2015/03/29 v1.2m Refers to last page's name (HMM; JPG)
 Package: marginnote 2016/06/02 v1.2 non floating margin notes for LaTeX
 \c@mn@abspage=\count93
 )
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
+\bigstrutjot=\dimen114
+)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\wallpaper\wallpaper.sty"
 Package: wallpaper 2005/01/18, v1.01 easy wallpaper formatting (MHFW)
 
@@ -130,8 +133,8 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count94
 \calc@Bcount=\count95
-\calc@Adimen=\dimen114
-\calc@Bdimen=\dimen115
+\calc@Adimen=\dimen115
+\calc@Bdimen=\dimen116
 \calc@Askip=\skip43
 \calc@Bskip=\skip44
 LaTeX Info: Redefining \setlength on input line 80.
@@ -188,30 +191,30 @@ LaTeX Info: Redefining \% on input line 6.
 )
 \openout1 = `Informe.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Info: Redefining \. on input line 33.
-LaTeX Info: Redefining \% on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Info: Redefining \. on input line 34.
+LaTeX Info: Redefining \% on input line 34.
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count97
-\scratchdimen=\dimen116
+\scratchdimen=\dimen117
 \scratchbox=\box26
 \nofMPsegments=\count98
 \nofMParguments=\count99
 \everyMPshowfont=\toks19
 \MPscratchCnt=\count100
-\MPscratchDim=\dimen117
+\MPscratchDim=\dimen118
 \MPnumerator=\count101
 \makeMPintoPDFobject=\count102
 \everyMPtoPDFconversion=\toks20
@@ -293,17 +296,17 @@ G,.JBIG2,.JB2,.eps]
 
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 33.
+(lastpage)             ! on input line 34.
 Package marginnote Info: \pdfoutput not 0 or unimportant and
 (marginnote)             \pdflastxpos or \lastxpos available.
 (marginnote)             Extended position detection mode activated.
 \AtBeginShipoutBox=\box27
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 52.
+(Font)              <12> on input line 53.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 52.
+(Font)              <8> on input line 53.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 52.
+(Font)              <6> on input line 53.
 [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 ]
@@ -311,64 +314,103 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 File: Img/diagramaIntro.png Graphic file (type png)
 
 <use Img/diagramaIntro.png>
-Package pdftex.def Info: Img/diagramaIntro.png used on input line 61.
+Package pdftex.def Info: Img/diagramaIntro.png used on input line 62.
 (pdftex.def)             Requested size: 512.1496pt x 222.52151pt.
  [2 <./Img/diagramaIntro.png>]
 <Img/PrimerNivel.png, id=11, 947.79094pt x 377.91188pt>
 File: Img/PrimerNivel.png Graphic file (type png)
 
 <use Img/PrimerNivel.png>
-Package pdftex.def Info: Img/PrimerNivel.png used on input line 74.
+Package pdftex.def Info: Img/PrimerNivel.png used on input line 75.
 (pdftex.def)             Requested size: 512.1496pt x 204.21353pt.
 
 <Img/SegundoNivel.png, id=13, 890.5772pt x 386.94562pt>
 File: Img/SegundoNivel.png Graphic file (type png)
 
 <use Img/SegundoNivel.png>
-Package pdftex.def Info: Img/SegundoNivel.png used on input line 84.
+Package pdftex.def Info: Img/SegundoNivel.png used on input line 85.
 (pdftex.def)             Requested size: 455.2483pt x 170.71713pt.
  [3 <./Img/PrimerNivel.png> <./Img/SegundoNivel.png>] <Img/DiagramaTiempos.png,
  id=18, 363.60844pt x 250.68657pt>
 File: Img/DiagramaTiempos.png Graphic file (type png)
 
 <use Img/DiagramaTiempos.png>
-Package pdftex.def Info: Img/DiagramaTiempos.png used on input line 97.
+Package pdftex.def Info: Img/DiagramaTiempos.png used on input line 98.
 (pdftex.def)             Requested size: 284.52756pt x 196.1697pt.
 
 <Img/DiagramaTiemposExt.png, id=19, 319.94531pt x 212.29312pt>
 File: Img/DiagramaTiemposExt.png Graphic file (type png)
 
 <use Img/DiagramaTiemposExt.png>
-Package pdftex.def Info: Img/DiagramaTiemposExt.png used on input line 107.
+Package pdftex.def Info: Img/DiagramaTiemposExt.png used on input line 108.
 (pdftex.def)             Requested size: 398.33858pt x 264.31296pt.
+ [4 <./Img/DiagramaTiempos.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 113--116
 
-<Img/TercerNivel.png, id=20, 615.80063pt x 427.5975pt>
+ []
+
+<Img/Memoria.png, id=24, 297.36093pt x 252.945pt>
+File: Img/Memoria.png Graphic file (type png)
+ <use Img/Memoria.png>
+Package pdftex.def Info: Img/Memoria.png used on input line 119.
+(pdftex.def)             Requested size: 227.62204pt x 193.62193pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 124.
+
+<Img/Comportamiento.png, id=25, 814.54312pt x 274.77657pt>
+File: Img/Comportamiento.png Graphic file (type png)
+
+<use Img/Comportamiento.png>
+Package pdftex.def Info: Img/Comportamiento.png used on input line 143.
+(pdftex.def)             Requested size: 455.24408pt x 153.57193pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--150
+
+ []
+
+[5 <./Img/DiagramaTiemposExt.png>] [6 <./Img/Memoria.png> <./Img/Comportamiento
+.png>] <Img/TercerNivel.png, id=34, 694.84593pt x 444.91219pt>
 File: Img/TercerNivel.png Graphic file (type png)
 
 <use Img/TercerNivel.png>
-Package pdftex.def Info: Img/TercerNivel.png used on input line 114.
-(pdftex.def)             Requested size: 455.24408pt x 316.11707pt.
- [4 <./Img/DiagramaTiempos.png>] [5 <./Img/DiagramaTiemposExt.png> <./Img/Terce
-rNivel.png>] [6] 
+Package pdftex.def Info: Img/TercerNivel.png used on input line 154.
+(pdftex.def)             Requested size: 526.37598pt x 337.05055pt.
+
+Overfull \hbox (2.84543pt too wide) in paragraph at lines 154--155
+ [][] 
+ []
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 161.
+
+
+Overfull \hbox (8.2717pt too wide) in paragraph at lines 165--206
+ [][] 
+ []
+
+[7 <./Img/TercerNivel.png>] [8] [9] 
 AED: lastpage setting LastPage
-[7] (Informe.aux
+[10] (Informe.aux
 LaTeX Info: Redefining \. on input line 6.
 LaTeX Info: Redefining \% on input line 6.
 ) ) 
 Here is how much of TeX's memory you used:
- 3876 strings out of 493334
- 53951 string characters out of 3136672
- 143722 words of memory out of 3000000
- 7339 multiletter control sequences out of 15000+200000
+ 3903 strings out of 493334
+ 54532 string characters out of 3136672
+ 153968 words of memory out of 3000000
+ 7360 multiletter control sequences out of 15000+200000
  8241 words of font info for 29 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,18n,43p,928b,396s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 40i,18n,43p,938b,396s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
 :/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on Informe.pdf (7 pages, 201442 bytes).
+Output written on Informe.pdf (10 pages, 232656 bytes).
 PDF statistics:
- 48 PDF objects out of 1000 (max. 8388607)
+ 61 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

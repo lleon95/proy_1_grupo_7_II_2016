@@ -5,6 +5,7 @@
 \usepackage[left=1.3cm,right=1.3cm,top=1.8cm,bottom=4cm]{geometry}
 \usepackage{lastpage}
 \usepackage{marginnote}
+\usepackage{multirow}
 \usepackage{wallpaper}
 \usepackage{fancyhdr}
 \setlength{\headheight}{87pt} 
@@ -99,8 +100,8 @@ Adentrando, finalmente, en la estructura más específica del circuito, se encuent
   \label{fig:DiagramaTiempos}
 \end{figure}
 
-No obstante, para seguir el diagrama del tercer nivel de la Figura \ref{fig:TercerNivel} y alimentar el contador horizontal con el reloj proporcionado de 100 MHz por parte de la Nexys 3 [AGREGAR REFERENCIA], se puede dimensionar el contador para que sea de 12 bits y ejecutar una división por 4, esto mediante el descarte de los dos primeros bits menos significativos. \\[2ex]
-Por otra parte, el contador vertical debe incrementarse en cada ciclo del contador horizontal. En consecuencia, el contador vertical debe ser habilitado por el contador horizontal. De acuerdo con pruebas en el simulador, el contador interno horizontal (de 12 bits) debe levantar la bandera de conteo en los 1320 ticks, es decir, a la mitad del conteo para que haya un desfase correcto y los tiempos coincidan de forma correcta con errores despreciables. Esto permite que el generador de sincronía vertical inicie su pulso cuando el generador de sincronía horizontal finalice su pulso. 
+No obstante, para seguir el diagrama del tercer nivel de la Figura \ref{fig:TercerNivel} y alimentar el contador horizontal con el reloj proporcionado de 100 MHz por parte de la Nexys 3 [AGREGAR REFERENCIA], se puede dimensionar el contador para que sea de 12 bits y ejecutar una división por 4, esto mediante el descarte de los dos primeros bits menos significativos. Por ello, el contador tendrá un tope de 3200 (800x4) y  serán aprovechados los primeros 10 bits más significativos. \\[2ex]
+Por otra parte, el contador vertical debe incrementarse en cada ciclo del contador horizontal. En consecuencia, el contador vertical debe ser habilitado por el contador horizontal. De acuerdo con pruebas en el simulador, el contador interno horizontal (de 12 bits) debe levantar la bandera de conteo en los 1320 ticks, es decir, a la mitad del conteo para que haya un desfase correcto y los tiempos coincidan de forma correcta con errores despreciables. Esto permite que el generador de sincronía vertical inicie su pulso cuando el generador de sincronía horizontal finalice su pulso. Este contador tendrá un tope de 521, de acuerdo con lo visto en la Figura \ref{fig:DiagramaTiempos}.
 
 \begin{figure}[htbp]
 	\centering
@@ -109,20 +110,100 @@ Por otra parte, el contador vertical debe incrementarse en cada ciclo del contad
 	\label{fig:DiagramaTiemposExt}
 \end{figure}
 
+Los generadores de sincronía vertical y horizontal están diseñados de tal forma, que, cuando el contador horizontal tenga una magnitud de 0 a 96, se coloque un 0 en la salida \textquotedblleft H-Sync \textquotedblright y en caso contrario, la salida será 1. Algo similar ocurre con el contador vertical, que en este caso, la magnitud del contador vertical debe rondar los 0-2 para poder colocar un 0 en la salida \textquotedblleft V-Sync \textquotedblright.\\[2ex]
+En cuanto al bloque de Memoria, este bloque es una memoria de acceso matricial, es decir, tiene doble direccionamiento. La primera forma de direccionamiento es la horizontal, que permite hacer una selección por filas. La segunda forma es la vertical, que permite seleccionar columnas. Esta memoria está dimensionada de 800 campos horizontales y 521 campos verticales. En total, se contabilizan 416800 espacios en la memoria. Asimismo, cada espacio cuenta con 2 bits, que permiten almacenar cuando se debe pintar una letra o fondo de pantalla o, bien, hacer un \textquotedblleft Blank \textquotedblright. Esta memoria, por tanto, permite establecer cuando debe hacerse la transmisión de los colores y cuando se deben apagar dichas señales en el \textquotedblleft Control de Salida \textquotedblright. Para entender la estructura de esta memoria, se propone la ilustración en la Figura \ref{fig:Memoria}\\[2ex]
+Cabe destacar que, en el bloque de memoria, se han colocado las iniciales \textquotedblleft LLA \textquotedblright mediante los datos insertados y presentados en la Tabla \ref{tbl:Memoria}.\\[2ex]
+
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[ width=16cm]{Img/TercerNivel.png}
+	\includegraphics[ width=8cm]{Img/Memoria.png}
+	\caption[3erNivel]{Estructura de la Memoria}
+	\label{fig:Memoria}
+\end{figure}
+
+\begin{table}[]
+	\centering
+	\caption{Datos presentes en la Memoria para iniciales}
+	\label{tbl:Memoria}
+	
+	\begin{tabular}{| c | c | c |}
+		\hline 
+		\textbf{Dato} & \textbf{Posiciones Horizontales} & \textbf{Posiciones Verticales}  \\
+		\hline
+		Blank = 1 y Letra = X & [0,48] U [688,800] & [0,30] U [510,521]  \\ [0.5ex] 
+		\hline
+		Blank = 0 y Letra = 1 & [0,48] U [688,800] & [0,30] U [510,521] \\ 
+		\hline
+	\end{tabular}
+\end{table}
+
+En general, el comportamiento de las etapas anteriores debe ser similar al presentado en la Figura \ref{fig:Comportamiento}. \\[2ex]
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[ width=16cm]{Img/Comportamiento.png}
+	\caption[3erNivel]{Estructura de la Memoria}
+	\label{fig:Comportamiento}
+\end{figure}
+
+Asimismo, el \textquotedblleft Control de croma \textquotedblright, como su nombre alude, es donde se realiza el control de los colores y los tonos. Este control permite almacenar las configuraciones de forma volatil seleccionadas por el usuario mediante las entradas Up, Down, LP y TC (Tone). De esta forma, se transmite los colores que tendrán las letras y el fondo de pantalla, para que sea regulado mediante el \textquotedblleft Control de Salida \textquotedblright, al recibir las señales de Letra y de Blank. \\[2ex]
+Por otro lado, el \textquotedblleft Control de Salida \textquotedblright permite modificar las salidas de los colores analógicos para modificar los tonos. Este control maneja las entradas digitales del DAC para poder hacer cambios en la tensión de la señales de R, G y B.\\[2ex]
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[ width=18.5cm]{Img/TercerNivel.png}
 	\caption[3erNivel]{Interfaz del VGA.}
 	\label{fig:TercerNivel}
 \end{figure}
 
-Los generadores de sincronía vertical y horizontal están diseñados de tal forma, que, cuando el contador horizontal tenga una magnitud de 0 a 96, se coloque un 0 en la salida \textquotedblleft H-Sync \textquotedblright y en caso contrario, la salida será 1. Algo similar ocurre con el contador vertical, que en este caso, la magnitud del contador vertical debe rondar los 0-2 para poder colocar un 0 en la salida \textquotedblleft V-Sync \textquotedblright. \\[2ex]
-En cuanto al bloque de Memoria, este bloque es una memoria de acceso matricial, es decir, tiene doble direccionamiento. La primera forma de direccionamiento es la horizontal, que permite hacer una selección por filas. La segunda forma es la vertical, que permite seleccionar columnas. Esta memoria está dimensionada de 800 campos horizontales y 521 campos verticales. En total, se contabilizan 416800 espacios en la memoria. Asimismo, cada espacio cuenta con 2 bits, que permiten almacenar cuando se debe pintar una letra o fondo de pantalla o, bien, hacer un \textquotedblleft Blank \textquotedblright. Esta memoria, por tanto, permite establecer cuando debe hacerse la transmisión de los colores y cuando se deben apagar dichas señales en el \textquotedblleft Control de Salida \textquotedblright.\\[2ex]
-Por otra parte, el \textquotedblleft Control de croma \textquotedblright, como su nombre alude, es donde se realiza el control de los colores y los tonos. Este control permite almacenar las configuraciones de forma volatil seleccionadas por el usuario mediante las entradas Up, Down, LP y TC (Tone). De esta forma, se transmite los colores que tendrán las letras y el fondo de pantalla, para que sea regulado mediante el \textquotedblleft Control de Salida \textquotedblright, al recibir las señales de Letra y de Blank. \\[2ex]
-Finalmente, el \textquotedblleft Control de Salida \textquotedblright permite modificar las salidas de los colores analógicos para modificar los tonos. Este control maneja las entradas digitales del DAC para poder hacer cambios en la tensión de la señales de R, G y B.
+Finalmente, a continuación se presenta un resumen de las entradas y salidas de cada bloque, para aclarar las necesidades del diseño de tercer nivel. Véase la Tabla \ref{tbl:IO3}.
 
-
-
+\begin{table}[]
+	\centering
+	\caption{Tabla de entradas y salidas del circuito}
+	\label{tbl:IO3}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{Bloque}}                      & \textbf{Entradas / Salidas}                                          & \textbf{Ancho} \\ \hline
+		\multicolumn{1}{|c|}{\multirow{4}{*}{Contador Horizontal}} & (Entrada) CLK: Corresponde al reloj del sistema.                     & 1              \\ \cline{2-3} 
+		\multicolumn{1}{|c|}{}                                     & (Entrada) Reset: Permite reiniciar el contador                       & 1              \\ \cline{2-3} 
+		\multicolumn{1}{|c|}{}                                     & (Salida) Cont\_H: Es el resultado del contador.                      & 10             \\ \cline{2-3} 
+		\multicolumn{1}{|c|}{}                                     & (Salida) V\_Flag: Incrementa el contador vertical                    & 1              \\ \hline
+		\multirow{3}{*}{Contador Vertical}                         & (Entrada) CLK: Corresponde al reloj del sistema                      & 1              \\ \cline{2-3} 
+		& (Entrada) Reset: Permite reiniciar el contador                       & 1              \\ \cline{2-3} 
+		& (Salida) Cont\_V: Es el resultado del contador.                      & 10             \\ \hline
+		\multirow{2}{*}{Generador H-Sync}                          & (Entrada) Cont\_H: Es el resultado del contador H.                   & 10             \\ \cline{2-3} 
+		& (Salida) H-Sync: Salida al monitor                                   & 1              \\ \hline
+		\multirow{2}{*}{Generador V-Sync}                          & (Entrada) Cont\_V: Es el resultado del contador V.                   & 10             \\ \cline{2-3} 
+		& (Salida) V-Sync: Salida al monitor                                   & 1              \\ \hline
+		\multirow{4}{*}{Memoria}                                   & (Entrada) Cont\_H: Es el resultado del contador H                    & 10             \\ \cline{2-3} 
+		& (Entrada) Cont\_V: Es el resultado del contador V.                   & 10             \\ \cline{2-3} 
+		& (Salida) Blank: Alerta de señales de sincronía en Control de salida  & 1              \\ \cline{2-3} 
+		& (Salida) Letra: Determina si se debe pintar una letra o fondo        & 1              \\ \hline
+		\multirow{4}{*}{Antirrebotes \& Sinc.}                     & (Entrada) CLK: Corresponde al reloj del sistema                      & 1              \\ \cline{2-3} 
+		& (Entrada) Reset: Permite reiniciar el contador                       & 1              \\ \cline{2-3} 
+		& (Entrada) Botón: Recibe la señal del botón                           & 1              \\ \cline{2-3} 
+		& (Salida) Bit: Salida libre de rebotes y sincronizada                 & 1              \\ \hline
+		\multirow{9}{*}{Control de Croma}                          & (Entrada) CLK: Corresponde al reloj del sistema                      & 1              \\ \cline{2-3} 
+		& (Entrada) Reset: Permite reiniciar el contador                       & 1              \\ \cline{2-3} 
+		& (Entrada) Up: Permite incrementar un registro                        & 1              \\ \cline{2-3} 
+		& (Entrada) Down: Permite decrementar un registro                      & 1              \\ \cline{2-3} 
+		& (Entrada) TC: Modifica el tono del color                             & 1              \\ \cline{2-3} 
+		& (Entrada) LP: Modifica el color de la pantalla o de la letra         & 1              \\ \cline{2-3} 
+		& (Salida) Tono: Representa el tono seleccionado por el usuario        & 8              \\ \cline{2-3} 
+		& (Salida) Color\_P: Contiene el color del fondo de pantalla           & 3              \\ \cline{2-3} 
+		& (Salida) Color\_L: Contiene el color de la letra                     & 3              \\ \hline
+		\multirow{9}{*}{Control de Salida}                         & (Entrada) CLK: Corresponde al reloj del sistema                      & 1              \\ \cline{2-3} 
+		& (Entrada) Tono: Representa el tono seleccionado por el usuario       & 8              \\ \cline{2-3} 
+		& (Entrada) Color\_P: Contiene el color del fondo de pantalla          & 3              \\ \cline{2-3} 
+		& (Entrada) Color\_L: Contiene el color de la letra                    & 3              \\ \cline{2-3} 
+		& (Entrada) Blank: Alerta de señales de sincronía en Control de salida & 1              \\ \cline{2-3} 
+		& (Entrada) Letra: Determina si se debe pintar una letra o fondo       & 1              \\ \cline{2-3} 
+		& (Salida) R: Representa la combinación de tonos de rojo al DAC        & 3              \\ \cline{2-3} 
+		& (Salida) G: Representa la combinación de tonos de verde al DAC       & 3              \\ \cline{2-3} 
+		& (Salida) B: Representa la combinación de azul de rojo al DAC         & 2              \\ \hline
+	\end{tabular}
+\end{table}
 
 \section{Datos y resultados}
 \subsection{Simulaciones}
