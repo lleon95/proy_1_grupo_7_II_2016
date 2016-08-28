@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.8.27)  27 AUG 2016 15:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.8.27)  27 AUG 2016 18:02
 entering extended mode
 **./Informe.tex
 (Informe.tex
@@ -307,494 +307,68 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 ]
-<Img/diagramaIntro.png, id=7, 910.15031pt x 378.66469pt>
+<Img/diagramaIntro.png, id=7, 890.5772pt x 386.94562pt>
 File: Img/diagramaIntro.png Graphic file (type png)
 
 <use Img/diagramaIntro.png>
 Package pdftex.def Info: Img/diagramaIntro.png used on input line 61.
-(pdftex.def)             Requested size: 512.1496pt x 213.07925pt.
+(pdftex.def)             Requested size: 512.1496pt x 222.52151pt.
  [2 <./Img/diagramaIntro.png>]
-
-LaTeX Warning: File `FinalIm/Primer_nivel_VGA_v2.png' not found on input line 7
-3.
-
-
-! Package pdftex.def Error: File `FinalIm/Primer_nivel_VGA_v2.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.73 ...dth=10cm]{FinalIm/Primer_nivel_VGA_v2.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[3]
-
-LaTeX Warning: File `FinalIm/Segundo_nivel_VGA_v2.png' not found on input line 
-86.
-
-
-! Package pdftex.def Error: File `FinalIm/Segundo_nivel_VGA_v2.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.86 ...th=16cm]{FinalIm/Segundo_nivel_VGA_v2.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[4]
-
-LaTeX Warning: File `FinalIm/Tercer_nivel_VGA_v3.png' not found on input line 1
-04.
-
-
-! Package pdftex.def Error: File `FinalIm/Tercer_nivel_VGA_v3.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.104 ...th=16cm]{FinalIm/Tercer_nivel_VGA_v3.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/fondo_general.png' not found on input line 111.
-
-
-! Package pdftex.def Error: File `FinalIm/fondo_general.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.111 ...cm, width=9cm]{FinalIm/fondo_general.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[5] [6]
-
-LaTeX Warning: File `FinalIm/PrimerNivelTeclado_v2.png' not found on input line
- 164.
-
-
-! Package pdftex.def Error: File `FinalIm/PrimerNivelTeclado_v2.png' not found.
-
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.164 ...=10cm]{FinalIm/PrimerNivelTeclado_v2.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[7]
-
-LaTeX Warning: File `FinalIm/SegundoNivelTeclado_v2.png' not found on input lin
-e 177.
-
-
-! Package pdftex.def Error: File `FinalIm/SegundoNivelTeclado_v2.png' not found
-.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.177 ...16cm]{FinalIm/SegundoNivelTeclado_v2.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/rtcp.png' not found on input line 186.
-
-
-! Package pdftex.def Error: File `FinalIm/rtcp.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.186 ...height=9cm, width=16cm]{FinalIm/rtcp.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[8]
-
-LaTeX Warning: File `FinalIm/diagramaP.png' not found on input line 218.
-
-
-! Package pdftex.def Error: File `FinalIm/diagramaP.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 ...=14cm, width=12cm]{FinalIm/diagramaP.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[9]
-
-LaTeX Warning: File `FinalIm/d_inirtc.png' not found on input line 229.
-
-
-! Package pdftex.def Error: File `FinalIm/d_inirtc.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.229 ...ght=6cm, width=5cm]{FinalIm/d_inirtc.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[10]
-
-LaTeX Warning: File `FinalIm/read_rtc.png' not found on input line 242.
-
-
-! Package pdftex.def Error: File `FinalIm/read_rtc.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.242 ...t=7cm, width=5.5cm]{FinalIm/read_rtc.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[11]
-
-LaTeX Warning: File `FinalIm/camb_hora.png' not found on input line 255.
-
-
-! Package pdftex.def Error: File `FinalIm/camb_hora.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.255 ...11cm, width=5.5cm]{FinalIm/camb_hora.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/camb_formato.png' not found on input line 265.
-
-
-! Package pdftex.def Error: File `FinalIm/camb_formato.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.265 ...0cm, width=2cm]{FinalIm/camb_formato.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[12]
-
-LaTeX Warning: File `FinalIm/write_rtc.png' not found on input line 275.
-
-
-! Package pdftex.def Error: File `FinalIm/write_rtc.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.275 ...ht=8cm, width=5cm]{FinalIm/write_rtc.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/lecturatecla.png' not found on input line 288.
-
-
-! Package pdftex.def Error: File `FinalIm/lecturatecla.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.288 ...8cm, width=7cm]{FinalIm/lecturatecla.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/CambioSenialesVGA.PNG' not found on input line 299
-.
-
-
-! Package pdftex.def Error: File `FinalIm/CambioSenialesVGA.PNG' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.299 ...idth=18cm]{FinalIm/CambioSenialesVGA.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/CambioSenialesVGA2.PNG' not found on input line 30
-5.
-
-
-! Package pdftex.def Error: File `FinalIm/CambioSenialesVGA2.PNG' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.305 ...dth=18cm]{FinalIm/CambioSenialesVGA2.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/CambioSenialesVGA2_closeup.PNG' not found on input
- line 311.
-
-
-! Package pdftex.def Error: File `FinalIm/CambioSenialesVGA2_closeup.PNG' not f
-ound.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.311 ...]{FinalIm/CambioSenialesVGA2_closeup.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/CambioSenialesVGA2_faraway.PNG' not found on input
- line 317.
-
-
-! Package pdftex.def Error: File `FinalIm/CambioSenialesVGA2_faraway.PNG' not f
-ound.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.317 ...]{FinalIm/CambioSenialesVGA2_faraway.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/MovimientoDatos.PNG' not found on input line 324.
-
-
-! Package pdftex.def Error: File `FinalIm/MovimientoDatos.PNG' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.324 ... width=11cm]{FinalIm/MovimientoDatos.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/MovimientoDatos2.PNG' not found on input line 330.
-
-
-
-! Package pdftex.def Error: File `FinalIm/MovimientoDatos2.PNG' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.330 ...width=11cm]{FinalIm/MovimientoDatos2.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/MovimientoDatosGuardar.PNG' not found on input lin
-e 336.
-
-
-! Package pdftex.def Error: File `FinalIm/MovimientoDatosGuardar.PNG' not found
-.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.336 ...14cm]{FinalIm/MovimientoDatosGuardar.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/DeteccionTecla.PNG' not found on input line 343.
-
-
-! Package pdftex.def Error: File `FinalIm/DeteccionTecla.PNG' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.343 ..., width=18cm]{FinalIm/DeteccionTecla.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/DecodificacionTecla.PNG' not found on input line 3
-49.
-
-
-! Package pdftex.def Error: File `FinalIm/DecodificacionTecla.PNG' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.349 ...th=18cm]{FinalIm/DecodificacionTecla.PNG}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/simpico.png' not found on input line 356.
-
-
-! Package pdftex.def Error: File `FinalIm/simpico.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.356 ...t=4.5cm, width=18cm]{FinalIm/simpico.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/rd_rtc.png' not found on input line 363.
-
-
-! Package pdftex.def Error: File `FinalIm/rd_rtc.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.363 ...ight=5cm, width=18cm]{FinalIm/rd_rtc.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `FinalIm/wr_rtc.png' not found on input line 369.
-
-
-! Package pdftex.def Error: File `FinalIm/wr_rtc.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.369 ...ight=5cm, width=18cm]{FinalIm/wr_rtc.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[13] [14] [15] [16] [17] [18] [19] [20] [21]
-
-LaTeX Warning: File `FinalIm/Resultado_interfaz.png' not found on input line 40
-8.
-
-
-! Package pdftex.def Error: File `FinalIm/Resultado_interfaz.png' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.408 ...idth=9cm]{FinalIm/Resultado_interfaz.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[22] [23] [24] 
+<Img/PrimerNivel.png, id=11, 947.79094pt x 377.91188pt>
+File: Img/PrimerNivel.png Graphic file (type png)
+
+<use Img/PrimerNivel.png>
+Package pdftex.def Info: Img/PrimerNivel.png used on input line 74.
+(pdftex.def)             Requested size: 512.1496pt x 204.21353pt.
+
+<Img/SegundoNivel.png, id=13, 890.5772pt x 386.94562pt>
+File: Img/SegundoNivel.png Graphic file (type png)
+
+<use Img/SegundoNivel.png>
+Package pdftex.def Info: Img/SegundoNivel.png used on input line 84.
+(pdftex.def)             Requested size: 455.2483pt x 170.71713pt.
+ [3 <./Img/PrimerNivel.png> <./Img/SegundoNivel.png>] <Img/DiagramaTiempos.png,
+ id=18, 363.60844pt x 250.68657pt>
+File: Img/DiagramaTiempos.png Graphic file (type png)
+
+<use Img/DiagramaTiempos.png>
+Package pdftex.def Info: Img/DiagramaTiempos.png used on input line 97.
+(pdftex.def)             Requested size: 284.52756pt x 196.1697pt.
+
+<Img/DiagramaTiemposExt.png, id=19, 319.94531pt x 212.29312pt>
+File: Img/DiagramaTiemposExt.png Graphic file (type png)
+
+<use Img/DiagramaTiemposExt.png>
+Package pdftex.def Info: Img/DiagramaTiemposExt.png used on input line 107.
+(pdftex.def)             Requested size: 398.33858pt x 264.31296pt.
+
+<Img/TercerNivel.png, id=20, 615.80063pt x 427.5975pt>
+File: Img/TercerNivel.png Graphic file (type png)
+
+<use Img/TercerNivel.png>
+Package pdftex.def Info: Img/TercerNivel.png used on input line 114.
+(pdftex.def)             Requested size: 455.24408pt x 316.11707pt.
+ [4 <./Img/DiagramaTiempos.png>] [5 <./Img/DiagramaTiemposExt.png> <./Img/Terce
+rNivel.png>] [6] 
 AED: lastpage setting LastPage
-[25] (Informe.aux
+[7] (Informe.aux
 LaTeX Info: Redefining \. on input line 6.
 LaTeX Info: Redefining \% on input line 6.
 ) ) 
 Here is how much of TeX's memory you used:
- 3910 strings out of 493334
- 54249 string characters out of 3136672
- 154973 words of memory out of 3000000
- 7348 multiletter control sequences out of 15000+200000
- 8410 words of font info for 30 fonts, out of 3000000 for 9000
+ 3876 strings out of 493334
+ 53951 string characters out of 3136672
+ 143722 words of memory out of 3000000
+ 7339 multiletter control sequences out of 15000+200000
+ 8241 words of font info for 29 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,18n,48p,1378b,396s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 40i,18n,43p,928b,396s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
-:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/
-Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on Informe.pdf (25 pages, 147628 bytes).
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on Informe.pdf (7 pages, 201442 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
+ 48 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
