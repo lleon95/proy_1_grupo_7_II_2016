@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.8.27)  30 AUG 2016 08:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9) (preloaded format=pdflatex 2016.8.27)  30 AUG 2016 12:38
 entering extended mode
 **./Informe.tex
 (Informe.tex
@@ -391,27 +391,46 @@ Overfull \hbox (8.2717pt too wide) in paragraph at lines 165--206
  [][] 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 220--221
+
+ []
+
 [6 <./Img/Memoria.png> <./Img/Comportamiento.png>] [7 <./Img/TercerNivel.png>]
-[8] [9] 
+[8]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 222.
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 237.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 237.
+ [9]
+
 AED: lastpage setting LastPage
 [10] (Informe.aux
 LaTeX Info: Redefining \. on input line 6.
 LaTeX Info: Redefining \% on input line 6.
 ) ) 
 Here is how much of TeX's memory you used:
- 3903 strings out of 493334
- 54534 string characters out of 3136672
- 154968 words of memory out of 3000000
- 7360 multiletter control sequences out of 15000+200000
+ 3922 strings out of 493334
+ 54873 string characters out of 3136672
+ 154976 words of memory out of 3000000
+ 7376 multiletter control sequences out of 15000+200000
  8241 words of font info for 29 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,18n,43p,938b,398s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
-:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on Informe.pdf (10 pages, 230707 bytes).
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/
+Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on Informe.pdf (10 pages, 240646 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
+ 65 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

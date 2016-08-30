@@ -25,7 +25,7 @@
 \fancyhead[L]{\begin{tabular}{l r | l r}	
 \textbf{Proyecto} & 1 & \textbf{Página} & \thepage/\pageref{LastPage} \\
 \textbf{Trabajo} & Desarrollo de un controlador & \textbf{Actualizado en:} & 27/08/2016 \\
-\textbf{} &  VGA & \textbf{Revisado en:} & 07/04/2016 \\
+\textbf{} &  VGA & \textbf{Revisado en:} & 30/08/2016 \\
 \textbf{Grupo} & 1 & \textbf{Diseñadores} & Keylor Mena Venegas \\
 \textbf{Revisado por:} & Alfonso Chacón Rodríguez & \textbf{ } & Luis Leon Vega \\
 \textbf{} & & \textbf{ } & Luis Merayo Gatica
@@ -217,6 +217,28 @@ Finalmente, a continuación se presenta un resumen de las entradas y salidas de c
 
 \section{Hoja de datos de unidades desarrolladas}
 
+Dentro de las especificaciones de la unidad desarrollada, se encuentra la implementación sobre una FPGA con un reloj de 100MHz, que es el equivalente al obtenido en la Nexys3. Por otro lado, se requiere el uso de dos entrada de pulso o estado momentáneo, tales como botones conectadas como entradas \textquotedblleft Up \textquotedblright y \textquotedblleft Down \textquotedblright. Por otro lado, se requieren dos entradas de estado permanente manejadas por interruptores, conectados en las entradas \textquotedblleft Reset \textquotedblright, \textquotedblleft TC \textquotedblright y \textquotedblleft LP \textquotedblright. En la Tabla \ref{tbl:OutDatasheet} se verá más claramente la organización de pines. Asimismo, se aclara que, para efectos eléctricos, se sigue la hoja de datos de la Nexys3 [2]. \\[2ex]
+
+\begin{table}[]
+	\centering
+	\caption{Hoja de conexiones para Nexys3}
+	\label{tbl:OutDatasheet}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\textbf{I/O de la Unidad} & \textbf{Tipo} & \multicolumn{1}{l|}{\textbf{Asignado en Nexys3}} \\ \hline
+		CLK                       & Entrada       & V10                                              \\ \hline
+		Reset                     & Entrada       & B8                                               \\ \hline
+		TC                        & Entrada       & T10                                              \\ \hline
+		LP                        & Entrada       & T9                                               \\ \hline
+		Up                        & Entrada       & A8                                               \\ \hline
+		Down                      & Entrada       & C9                                               \\ \hline
+		H-Sync                    & Salida        & N6                                               \\ \hline
+		V-Sync                    & Salida        & P7                                               \\ \hline
+		R{[}2:0{]}                & Bus-Salida    & \{U7, V7, N7\}                                   \\ \hline
+		G{[}2:0{]}                & Bus-Salida    & \{P8, V6, N6\}                                   \\ \hline
+		B{[}1:0{]}                & Bus-Salida    & \{R7, T7\}                                       \\ \hline
+	\end{tabular}
+\end{table}
 
 \section{Conclusiones y recomendaciones}
 \subsection{Conclusiones}
