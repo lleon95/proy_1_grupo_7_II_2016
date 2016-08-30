@@ -42,7 +42,7 @@ Finalmente, este documento contendrá el proceso de diseño del controlador, la co
 
 \section{Introducción} 
 El controlador VGA a desarrollar en este proyecto contiene señales de sincronía vertical y horizontal que permiten barrer la pantalla de forma completa y, además, se requiere generar señales analógicas para modificar los tonos de color. En total, se deben diseñar etapas para poder generar la imagen, cambiar los colores y sincronizar la señal del monitor para que la tarea pueda realizarse de forma exitosa. \\[2ex]
-Para la implementación se tomará en cuenta la placa de desarrollo Nexys 3 de Digilent, que posee una FPGA Spartan-6 de Xilinx y posee un convertidor de digital a analógico en la salida de los colores hacia el monitor que permite generar hasta 256 colores distintos (combinaciones de 3 tonos de rojo y verde y 2 tonos de color azul). Asimismo, la velocidad del reloj de este dispositivo es de 100 MHz, que equivale a 4 veces más, la frecuencia requerida para el proyecto, de acuerdo con Pong Chu. (AGREGAR REFERENCIA). \\[2ex]
+Para la implementación se tomará en cuenta la placa de desarrollo Nexys 3 de Digilent, que posee una FPGA Spartan-6 de Xilinx y posee un convertidor de digital a analógico en la salida de los colores hacia el monitor que permite generar hasta 256 colores distintos (combinaciones de 3 tonos de rojo y verde y 2 tonos de color azul). Asimismo, la velocidad del reloj de este dispositivo es de 100 MHz, que equivale a 4 veces más, la frecuencia requerida para el proyecto, de acuerdo con Pong Chu [1]. \\[2ex]
 Por otro lado, otras de las conveniencias para usar esta placa de desarrollo de Digilent es la posibilidad de desarrollar su descripción de hardware en el entorno de Xilinx ISE, que permite controlar la descripción en lenguajes HDL en cuanto a los recursos disponibles de la Spartan-6. Esto facilita el manejo de la implementación y brinda la posibilidad de emplear una basta cantidad de instrucciones embebidas al IDE (Entorno de desarrollo). \\[2ex]
 Para concluir este apartado, se empleará la técnica de diseño Top-Down para poder crear un diseño de forma eficiente y, así, finalizar de acuerdo con el cronograma dispuesto como parte del plan de proyecto.
 
@@ -91,7 +91,7 @@ Los contadores, en este caso, son los encargados de llevar el conteo de las fila
 El \textquotedblleft Control de color \textquotedblright permite establecer el color que se pone en el fondo de la pantalla y a las letras. Esto de acuerdo con lo seleccionado por el usuario mediante el uso de los selectores de tono (Tone), de letra-pantalla (LP) y los botones Up/Down. Además, permite disernir cuando se debe colocar la pantalla en \textquotedblleft blank \textquotedblright durante los fragmentos de la señal de sincronía que no son escribibles.
 
 \subsubsection{Diagrama de tercer nivel}
-Adentrando, finalmente, en la estructura más específica del circuito, se encuentra el diagrama de tercer nivel, ilustrado en la Figura \ref{fig:TercerNivel}. Para desarrollar correctamente el módulo, se debe tener en cuenta el diagrama de tiempos que se usa para establecer el protocolo, descrito en la Figura \ref{fig:DiagramaTiempos}. Este diagrama de tiempos está construido en función de la Figura \ref{fig:DiagramaTiemposExt}, extraída de la hoja de datos de la placa de desarrollo, Nexys 3 [AGREGAR REFERENCIA].
+Adentrando, finalmente, en la estructura más específica del circuito, se encuentra el diagrama de tercer nivel, ilustrado en la Figura \ref{fig:TercerNivel}. Para desarrollar correctamente el módulo, se debe tener en cuenta el diagrama de tiempos que se usa para establecer el protocolo, descrito en la Figura \ref{fig:DiagramaTiempos}. Este diagrama de tiempos está construido en función de la Figura \ref{fig:DiagramaTiemposExt}, extraída de la hoja de datos de la placa de desarrollo, Nexys 3 [2].
 
 \begin{figure}[htbp]
   \centering
@@ -100,7 +100,7 @@ Adentrando, finalmente, en la estructura más específica del circuito, se encuent
   \label{fig:DiagramaTiempos}
 \end{figure}
 
-No obstante, para seguir el diagrama del tercer nivel de la Figura \ref{fig:TercerNivel} y alimentar el contador horizontal con el reloj proporcionado de 100 MHz por parte de la Nexys 3 [AGREGAR REFERENCIA], se puede dimensionar el contador para que sea de 12 bits y ejecutar una división por 4, esto mediante el descarte de los dos primeros bits menos significativos. Por ello, el contador tendrá un tope de 3200 (800x4) y  serán aprovechados los primeros 10 bits más significativos. \\[2ex]
+No obstante, para seguir el diagrama del tercer nivel de la Figura \ref{fig:TercerNivel} y alimentar el contador horizontal con el reloj proporcionado de 100 MHz por parte de la Nexys 3 [2], se puede dimensionar el contador para que sea de 12 bits y ejecutar una división por 4, esto mediante el descarte de los dos primeros bits menos significativos. Por ello, el contador tendrá un tope de 3200 (800x4) y  serán aprovechados los primeros 10 bits más significativos. \\[2ex]
 Por otra parte, el contador vertical debe incrementarse en cada ciclo del contador horizontal. En consecuencia, el contador vertical debe ser habilitado por el contador horizontal. De acuerdo con pruebas en el simulador, el contador interno horizontal (de 12 bits) debe levantar la bandera de conteo en los 1320 ticks, es decir, a la mitad del conteo para que haya un desfase correcto y los tiempos coincidan de forma correcta con errores despreciables. Esto permite que el generador de sincronía vertical inicie su pulso cuando el generador de sincronía horizontal finalice su pulso. Este contador tendrá un tope de 521, de acuerdo con lo visto en la Figura \ref{fig:DiagramaTiempos}.
 
 \begin{figure}[htbp]
@@ -242,15 +242,16 @@ Finalmente, a continuación se presenta un resumen de las entradas y salidas de c
 
 \begin{thebibliography}{3}
 \bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
-\bibitem[1]{DatasheetPico}
-Chapman, K. (2014)
-\newblock \emph{PicoBlaze for Spartan-6, Virtex-6, 7-Series, Zynq and UltraScale Devices (KCPSM6)},
-\newblock Xilinx, Inc.
 
-\bibitem[2]{PongChu}
+\bibitem[1]{PongChu}
 Chu, Pong P. (2008)
 \newblock \emph{FPGA prototyping by Verilog examples. Xilinx SpartanTM-3 Version},
 \newblock John Wiley \& Sons, Inc.
+
+\bibitem[1]{DatasheetNexys3}
+Digilent. (2013)
+\newblock \emph{Nexys3 Board Reference Manual},
+\newblock Xilinx, Inc.
 
 \end{thebibliography}
 
