@@ -23,11 +23,11 @@
 
 %-------------------------ENCABEZADO---------------
 \fancyhead[L]{\begin{tabular}{l r | l r}	
-\textbf{Proyecto} & 1 & \textbf{P√°gina} & \thepage/\pageref{LastPage} \\
+\textbf{Proyecto} & 1 & \textbf{P·gina} & \thepage/\pageref{LastPage} \\
 \textbf{Trabajo} & Desarrollo de un controlador & \textbf{Actualizado en:} & 27/08/2016 \\
 \textbf{} &  VGA & \textbf{Revisado en:} & 07/04/2016 \\
-\textbf{Grupo} & 1 & \textbf{Dise√±adores} & Keylor Mena Venegas \\
-\textbf{Revisado por:} & Alfonso Chac√≥n Rodr√≠guez & \textbf{ } & Luis Leon Vega \\
+\textbf{Grupo} & 1 & \textbf{DiseÒadores} & Keylor Mena Venegas \\
+\textbf{Revisado por:} & Alfonso ChacÛn RodrÌguez & \textbf{ } & Luis Leon Vega \\
 \textbf{} & & \textbf{ } & Luis Merayo Gatica
 \end{tabular}}
 
@@ -35,27 +35,27 @@
 \AddToShipoutPicture{\BackgroundStructure}
 
 \section{Resumen} 
-Muchos de los monitores que se emplean, actualmente, en computadoras personales emplean el protocolo de comunicaci√≥n de video VGA (Video Graphics Array). Este protocolo fue dise√±ado para controlar monitores basados en la tecnolog√≠a de tubos al vac√≠o, espec√≠ficamente, el tubo de rayos cat√≥dicos (CRT).\\[2ex]
-El funcionamiento de estos monitores estaba basado en los televisores de esta misma tecnolog√≠a, donde empleaban ca√±ones de color controlados por los c√°todos y dirig√≠an el haz de electrones mediante electromagnetismo, logrando barrer la pantalla de f√≥sforo que se ilumina gracias al choque de los electrones contra el material. \\[2ex]
-No obstante, el protocolo contin√∫a utiliz√°ndose en la actualidad, a pesar de que la tecnolog√≠a CRT ha quedado en obscolescencia. Para este proyecto, se realizar√° un controlador de un monitor LCD que emplee el protocolo VGA, esto, empleando una FPGA Nexys 3 para poder implementar la l√≥gica que se dise√±ar√° para construir el controlador y, de esta forma, acelerar el proceso de prototipado del dise√±o. \\ [2ex]
-Finalmente, este documento contendr√° el proceso de dise√±o del controlador, la comprobaci√≥n del dise√±o mediante simulaci√≥n y los resultados experimentales producto del prototipado y la implementaci√≥n en la FPGA Nexys 3.
+Muchos de los monitores que se emplean, actualmente, en computadoras personales emplean el protocolo de comunicaciÛn de video VGA (Video Graphics Array). Este protocolo fue diseÒado para controlar monitores basados en la tecnologÌa de tubos al vacÌo, especÌficamente, el tubo de rayos catÛdicos (CRT).\\[2ex]
+El funcionamiento de estos monitores estaba basado en los televisores de esta misma tecnologÌa, donde empleaban caÒones de color controlados por los c·todos y dirigÌan el haz de electrones mediante electromagnetismo, logrando barrer la pantalla de fÛsforo que se ilumina gracias al choque de los electrones contra el material. \\[2ex]
+No obstante, el protocolo contin˙a utiliz·ndose en la actualidad, a pesar de que la tecnologÌa CRT ha quedado en obscolescencia. Para este proyecto, se realizar· un controlador de un monitor LCD que emplee el protocolo VGA, esto, empleando una FPGA Nexys 3 para poder implementar la lÛgica que se diseÒar· para construir el controlador y, de esta forma, acelerar el proceso de prototipado del diseÒo. \\ [2ex]
+Finalmente, este documento contendr· el proceso de diseÒo del controlador, la comprobaciÛn del diseÒo mediante simulaciÛn y los resultados experimentales producto del prototipado y la implementaciÛn en la FPGA Nexys 3.
 
-\section{Introducci√≥n} 
-El controlador VGA a desarrollar en este proyecto contiene se√±ales de sincron√≠a vertical y horizontal que permiten barrer la pantalla de forma completa y, adem√°s, se requiere generar se√±ales anal√≥gicas para modificar los tonos de color. En total, se deben dise√±ar etapas para poder generar la imagen, cambiar los colores y sincronizar la se√±al del monitor para que la tarea pueda realizarse de forma exitosa. \\[2ex]
-Para la implementaci√≥n se tomar√° en cuenta la placa de desarrollo Nexys 3 de Digilent, que posee una FPGA Spartan-6 de Xilinx y posee un convertidor de digital a anal√≥gico en la salida de los colores hacia el monitor que permite generar hasta 256 colores distintos (combinaciones de 3 tonos de rojo y verde y 2 tonos de color azul). Asimismo, la velocidad del reloj de este dispositivo es de 100 MHz, que equivale a 4 veces m√°s, la frecuencia requerida para el proyecto, de acuerdo con Pong Chu [1]. \\[2ex]
-Por otro lado, otras de las conveniencias para usar esta placa de desarrollo de Digilent es la posibilidad de desarrollar su descripci√≥n de hardware en el entorno de Xilinx ISE, que permite controlar la descripci√≥n en lenguajes HDL en cuanto a los recursos disponibles de la Spartan-6. Esto facilita el manejo de la implementaci√≥n y brinda la posibilidad de emplear una basta cantidad de instrucciones embebidas al IDE (Entorno de desarrollo). \\[2ex]
-Para concluir este apartado, se emplear√° la t√©cnica de dise√±o Top-Down para poder crear un dise√±o de forma eficiente y, as√≠, finalizar de acuerdo con el cronograma dispuesto como parte del plan de proyecto.
+\section{IntroducciÛn} 
+El controlador VGA a desarrollar en este proyecto contiene seÒales de sincronÌa vertical y horizontal que permiten barrer la pantalla de forma completa y, adem·s, se requiere generar seÒales analÛgicas para modificar los tonos de color. En total, se deben diseÒar etapas para poder generar la imagen, cambiar los colores y sincronizar la seÒal del monitor para que la tarea pueda realizarse de forma exitosa. \\[2ex]
+Para la implementaciÛn se tomar· en cuenta la placa de desarrollo Nexys 3 de Digilent, que posee una FPGA Spartan-6 de Xilinx y posee un convertidor de digital a analÛgico en la salida de los colores hacia el monitor que permite generar hasta 256 colores distintos (combinaciones de 3 tonos de rojo y verde y 2 tonos de color azul). Asimismo, la velocidad del reloj de este dispositivo es de 100 MHz, que equivale a 4 veces m·s, la frecuencia requerida para el proyecto, de acuerdo con Pong Chu [1]. \\[2ex]
+Por otro lado, otras de las conveniencias para usar esta placa de desarrollo de Digilent es la posibilidad de desarrollar su descripciÛn de hardware en el entorno de Xilinx ISE, que permite controlar la descripciÛn en lenguajes HDL en cuanto a los recursos disponibles de la Spartan-6. Esto facilita el manejo de la implementaciÛn y brinda la posibilidad de emplear una basta cantidad de instrucciones embebidas al IDE (Entorno de desarrollo). \\[2ex]
+Para concluir este apartado, se emplear· la tÈcnica de diseÒo Top-Down para poder crear un diseÒo de forma eficiente y, asÌ, finalizar de acuerdo con el cronograma dispuesto como parte del plan de proyecto.
 
 \section{Objetivos}
 \begin{itemize}
-    \item Proponer un dise√±o a nivel de bloques de un controlador VGA que sea capaz de desplegar caracteres o s√≠mbolos en 8 colores distintos.
-    \item Emplear las t√©cnicas de dise√±o Top-Down.
-    \item Desarrollar el c√≥digo en Verilog, verificarlo a nivel de simulaci√≥n de post-s√≠ntesis y a una velocidad de reloj de al menos 100 MHz.
-    \item Comprobar el funcionamiento mediante la implementaci√≥n en una FPGA Nexys.
+    \item Proponer un diseÒo a nivel de bloques de un controlador VGA que sea capaz de desplegar caracteres o sÌmbolos en 8 colores distintos.
+    \item Emplear las tÈcnicas de diseÒo Top-Down.
+    \item Desarrollar el cÛdigo en Verilog, verificarlo a nivel de simulaciÛn de post-sÌntesis y a una velocidad de reloj de al menos 100 MHz.
+    \item Comprobar el funcionamiento mediante la implementaciÛn en una FPGA Nexys.
 \end{itemize}
 
-\section{Descripci√≥n del sistema}
-El circuito controlador se ha definido en cuatro bloques principales, encargados de generar el barrido, los datos y la sincron√≠a requerida para el funcionamiento del monitor mediante el protocolo VGA. A nivel general, el bloque de contadores son los que llevan el control del circuito en todo momento, permitiendo generar se√±ales de sincron√≠a y movilizar la memoria para poder decodificar los datos de una memoria en forma de matriz. Esta memoria alimenta el circuito de control de control para poder generar las se√±ales de color. En la Figura \ref{fig:generalSys}.
+\section{DescripciÛn del sistema}
+El circuito controlador se ha definido en cuatro bloques principales, encargados de generar el barrido, los datos y la sincronÌa requerida para el funcionamiento del monitor mediante el protocolo VGA. A nivel general, el bloque de contadores son los que llevan el control del circuito en todo momento, permitiendo generar seÒales de sincronÌa y movilizar la memoria para poder decodificar los datos de una memoria en forma de matriz. Esta memoria alimenta el circuito de control de control para poder generar las seÒales de color. En la Figura \ref{fig:generalSys}.
 
 \begin{figure}[hbtp]
 	\centering
@@ -64,11 +64,11 @@ El circuito controlador se ha definido en cuatro bloques principales, encargados
 	\label{fig:generalSys}
 \end{figure}
 
-\subsection{Dise√±o Top-Down del circuito}
+\subsection{DiseÒo Top-Down del circuito}
 \subsubsection{Diagrama de primer nivel}  \label{sec:VGA_pn}
-Previo a comenzar el dise√±o, se han establecido las entradas y salidas del circuito para poder determinar las necesidades que deben ser cubiertas. El diagrama de entradas y salidas se muestra en la Figura \ref{fig:PrimerNivel}. \\[2ex]
-En cuanto a las entradas, se encuentran las principales para el funcionamiento del circuito, las cuales son el reloj (Clock) y el reinicio (Reset). Estos permiten a los circuitos secuenciales trabajar de forma adecuada. Por otro lado, se encuentran los selectores de tono (Tone) y color de letra-pantalla (LP). En el caso del selector de tono, este permite modificar la tonalidad del color de la pantalla o de las letras; si este selector no est√° habilitado, el color primario \textquotedblleft RGB \textquotedblright ser√° cambiado. En el segundo caso, del selector color de letra-pantalla, este permite distinguir si se quiere cambiar el color del letra o de la pantalla. Finalmente, los botones de \textquotedblleft Up \textquotedblright y \textquotedblleft Down \textquotedblright, que permiten alterar los valores en funci√≥n de la configuraci√≥n en los selectores, anteriormente, mencionados. \\[2ex]
-Para las salidas, se tienen las esenciales para el funcionamiento correcto del monitor mediante el protocolo VGA, las cuales son las se√±ales de sincron√≠a vertical y horizontal; \textquotedblleft V-Sync \textquotedblright y \textquotedblleft H-Sync \textquotedblright de forma respectiva. Y, se tiene adem√°s, las se√±ales de datos anal√≥gicos de color; \textquotedblleft R \textquotedblright, \textquotedblleft G \textquotedblright y \textquotedblleft B \textquotedblright, que corresponden al color rojo, verde y azul, respectivamente.
+Previo a comenzar el diseÒo, se han establecido las entradas y salidas del circuito para poder determinar las necesidades que deben ser cubiertas. El diagrama de entradas y salidas se muestra en la Figura \ref{fig:PrimerNivel}. \\[2ex]
+En cuanto a las entradas, se encuentran las principales para el funcionamiento del circuito, las cuales son el reloj (Clock) y el reinicio (Reset). Estos permiten a los circuitos secuenciales trabajar de forma adecuada. Por otro lado, se encuentran los selectores de tono (Tone) y color de letra-pantalla (LP). En el caso del selector de tono, este permite modificar la tonalidad del color de la pantalla o de las letras; si este selector no est· habilitado, el color primario \textquotedblleft RGB \textquotedblright ser· cambiado. En el segundo caso, del selector color de letra-pantalla, este permite distinguir si se quiere cambiar el color del letra o de la pantalla. Finalmente, los botones de \textquotedblleft Up \textquotedblright y \textquotedblleft Down \textquotedblright, que permiten alterar los valores en funciÛn de la configuraciÛn en los selectores, anteriormente, mencionados. \\[2ex]
+Para las salidas, se tienen las esenciales para el funcionamiento correcto del monitor mediante el protocolo VGA, las cuales son las seÒales de sincronÌa vertical y horizontal; \textquotedblleft V-Sync \textquotedblright y \textquotedblleft H-Sync \textquotedblright de forma respectiva. Y, se tiene adem·s, las seÒales de datos analÛgicos de color; \textquotedblleft R \textquotedblright, \textquotedblleft G \textquotedblright y \textquotedblleft B \textquotedblright, que corresponden al color rojo, verde y azul, respectivamente.
 
 \begin{figure}[htbp]
   \centering
@@ -78,7 +78,7 @@ Para las salidas, se tienen las esenciales para el funcionamiento correcto del m
 \end{figure}
 
 \subsubsection{Diagrama de segundo nivel} \label{sec:VGA_sn}
-Un acercamiento a m√°s profundo al dise√±o del proyecto se brinda en el segundo nivel de dise√±o mostrado en la Figura \ref{fig:SegundoNivel}. Este diagrama se acerca m√°s a la realidad del circuito necesitado para conformar el controlador VGA. Al igual como se describi√≥ en la descripci√≥n del sistema, el dise√±o contempla a los contadoradores fundamentales para controlar el circuito en su totalidad. 
+Un acercamiento a m·s profundo al diseÒo del proyecto se brinda en el segundo nivel de diseÒo mostrado en la Figura \ref{fig:SegundoNivel}. Este diagrama se acerca m·s a la realidad del circuito necesitado para conformar el controlador VGA. Al igual como se describiÛ en la descripciÛn del sistema, el diseÒo contempla a los contadoradores fundamentales para controlar el circuito en su totalidad. 
 
 \begin{figure}[htbp]
   \centering
@@ -87,11 +87,11 @@ Un acercamiento a m√°s profundo al dise√±o del proyecto se brinda en el segundo 
   \label{fig:SegundoNivel}
 \end{figure}
 
-Los contadores, en este caso, son los encargados de llevar el conteo de las filas y columnas que se desplegar√°n en la pantalla del monitor conectado al circuito. Estos contadores suministrar√°n bus hacia los \textquotedblleft Generadores de Sincron√≠a \textquotedblright para poder establecer una correcta conexi√≥n del monitor con el controlador. Asimismo, se alimenta el bloque de \textquotedblleft Datos de prueba \textquotedblright, que permitir√° se√±alar a la etapa siguiente, \textquotedblleft Control de color \textquotedblright, cuando debe escribir la letra, poner fondo de pantalla y apagar la se√±al para generar los \textquotedblleft blank \textquotedblright. \\[2ex]
-El \textquotedblleft Control de color \textquotedblright permite establecer el color que se pone en el fondo de la pantalla y a las letras. Esto de acuerdo con lo seleccionado por el usuario mediante el uso de los selectores de tono (Tone), de letra-pantalla (LP) y los botones Up/Down. Adem√°s, permite disernir cuando se debe colocar la pantalla en \textquotedblleft blank \textquotedblright durante los fragmentos de la se√±al de sincron√≠a que no son escribibles.
+Los contadores, en este caso, son los encargados de llevar el conteo de las filas y columnas que se desplegar·n en la pantalla del monitor conectado al circuito. Estos contadores suministrar·n bus hacia los \textquotedblleft Generadores de SincronÌa \textquotedblright para poder establecer una correcta conexiÛn del monitor con el controlador. Asimismo, se alimenta el bloque de \textquotedblleft Datos de prueba \textquotedblright, que permitir· seÒalar a la etapa siguiente, \textquotedblleft Control de color \textquotedblright, cuando debe escribir la letra, poner fondo de pantalla y apagar la seÒal para generar los \textquotedblleft blank \textquotedblright. \\[2ex]
+El \textquotedblleft Control de color \textquotedblright permite establecer el color que se pone en el fondo de la pantalla y a las letras. Esto de acuerdo con lo seleccionado por el usuario mediante el uso de los selectores de tono (Tone), de letra-pantalla (LP) y los botones Up/Down. Adem·s, permite disernir cuando se debe colocar la pantalla en \textquotedblleft blank \textquotedblright durante los fragmentos de la seÒal de sincronÌa que no son escribibles.
 
 \subsubsection{Diagrama de tercer nivel}
-Adentrando, finalmente, en la estructura m√°s espec√≠fica del circuito, se encuentra el diagrama de tercer nivel, ilustrado en la Figura \ref{fig:TercerNivel}. Para desarrollar correctamente el m√≥dulo, se debe tener en cuenta el diagrama de tiempos que se usa para establecer el protocolo, descrito en la Figura \ref{fig:DiagramaTiempos}. Este diagrama de tiempos est√° construido en funci√≥n de la Figura \ref{fig:DiagramaTiemposExt}, extra√≠da de la hoja de datos de la placa de desarrollo, Nexys 3 [2].
+Adentrando, finalmente, en la estructura m·s especÌfica del circuito, se encuentra el diagrama de tercer nivel, ilustrado en la Figura \ref{fig:TercerNivel}. Para desarrollar correctamente el mÛdulo, se debe tener en cuenta el diagrama de tiempos que se usa para establecer el protocolo, descrito en la Figura \ref{fig:DiagramaTiempos}. Este diagrama de tiempos est· construido en funciÛn de la Figura \ref{fig:DiagramaTiemposExt}, extraÌda de la hoja de datos de la placa de desarrollo, Nexys 3 [2].
 
 \begin{figure}[htbp]
   \centering
@@ -100,8 +100,8 @@ Adentrando, finalmente, en la estructura m√°s espec√≠fica del circuito, se encue
   \label{fig:DiagramaTiempos}
 \end{figure}
 
-No obstante, para seguir el diagrama del tercer nivel de la Figura \ref{fig:TercerNivel} y alimentar el contador horizontal con el reloj proporcionado de 100 MHz por parte de la Nexys 3 [2], se puede dimensionar el contador para que sea de 12 bits y ejecutar una divisi√≥n por 4, esto mediante el descarte de los dos primeros bits menos significativos. Por ello, el contador tendr√° un tope de 3200 (800x4) y  ser√°n aprovechados los primeros 10 bits m√°s significativos. \\[2ex]
-Por otra parte, el contador vertical debe incrementarse en cada ciclo del contador horizontal. En consecuencia, el contador vertical debe ser habilitado por el contador horizontal. De acuerdo con pruebas en el simulador, el contador interno horizontal (de 12 bits) debe levantar la bandera de conteo en los 1320 ticks, es decir, a la mitad del conteo para que haya un desfase correcto y los tiempos coincidan de forma correcta con errores despreciables. Esto permite que el generador de sincron√≠a vertical inicie su pulso cuando el generador de sincron√≠a horizontal finalice su pulso. Este contador tendr√° un tope de 521, de acuerdo con lo visto en la Figura \ref{fig:DiagramaTiempos}.
+No obstante, para seguir el diagrama del tercer nivel de la Figura \ref{fig:TercerNivel} y alimentar el contador horizontal con el reloj proporcionado de 100 MHz por parte de la Nexys 3 [2], se puede dimensionar el contador para que sea de 12 bits y ejecutar una divisiÛn por 4, esto mediante el descarte de los dos primeros bits menos significativos. Por ello, el contador tendr· un tope de 3200 (800x4) y  ser·n aprovechados los primeros 10 bits m·s significativos. \\[2ex]
+Por otra parte, el contador vertical debe incrementarse en cada ciclo del contador horizontal. En consecuencia, el contador vertical debe ser habilitado por el contador horizontal. De acuerdo con pruebas en el simulador, el contador interno horizontal (de 12 bits) debe levantar la bandera de conteo en los 1320 ticks, es decir, a la mitad del conteo para que haya un desfase correcto y los tiempos coincidan de forma correcta con errores despreciables. Esto permite que el generador de sincronÌa vertical inicie su pulso cuando el generador de sincronÌa horizontal finalice su pulso. Este contador tendr· un tope de 521, de acuerdo con lo visto en la Figura \ref{fig:DiagramaTiempos}.
 
 \begin{figure}[htbp]
 	\centering
@@ -110,8 +110,8 @@ Por otra parte, el contador vertical debe incrementarse en cada ciclo del contad
 	\label{fig:DiagramaTiemposExt}
 \end{figure}
 
-Los generadores de sincron√≠a vertical y horizontal est√°n dise√±ados de tal forma, que, cuando el contador horizontal tenga una magnitud de 0 a 96, se coloque un 0 en la salida \textquotedblleft H-Sync \textquotedblright y en caso contrario, la salida ser√° 1. Algo similar ocurre con el contador vertical, que en este caso, la magnitud del contador vertical debe rondar los 0-2 para poder colocar un 0 en la salida \textquotedblleft V-Sync \textquotedblright.\\[2ex]
-En cuanto al bloque de Memoria, este bloque es una memoria de acceso matricial, es decir, tiene doble direccionamiento. La primera forma de direccionamiento es la horizontal, que permite hacer una selecci√≥n por filas. La segunda forma es la vertical, que permite seleccionar columnas. Esta memoria est√° dimensionada de 800 campos horizontales y 521 campos verticales. En total, se contabilizan 416800 espacios en la memoria. Asimismo, cada espacio cuenta con 2 bits, que permiten almacenar cuando se debe pintar una letra o fondo de pantalla o, bien, hacer un \textquotedblleft Blank \textquotedblright. Esta memoria, por tanto, permite establecer cuando debe hacerse la transmisi√≥n de los colores y cuando se deben apagar dichas se√±ales en el \textquotedblleft Control de Salida \textquotedblright. Para entender la estructura de esta memoria, se propone la ilustraci√≥n en la Figura \ref{fig:Memoria}\\[2ex]
+Los generadores de sincronÌa vertical y horizontal est·n diseÒados de tal forma, que, cuando el contador horizontal tenga una magnitud de 0 a 96, se coloque un 0 en la salida \textquotedblleft H-Sync \textquotedblright y en caso contrario, la salida ser· 1. Algo similar ocurre con el contador vertical, que en este caso, la magnitud del contador vertical debe rondar los 0-2 para poder colocar un 0 en la salida \textquotedblleft V-Sync \textquotedblright.\\[2ex]
+En cuanto al bloque de Memoria, este bloque es una memoria de acceso matricial, es decir, tiene doble direccionamiento. La primera forma de direccionamiento es la horizontal, que permite hacer una selecciÛn por filas. La segunda forma es la vertical, que permite seleccionar columnas. Esta memoria est· dimensionada de 800 campos horizontales y 521 campos verticales. En total, se contabilizan 416800 espacios en la memoria. Asimismo, cada espacio cuenta con 2 bits, que permiten almacenar cuando se debe pintar una letra o fondo de pantalla o, bien, hacer un \textquotedblleft Blank \textquotedblright. Esta memoria, por tanto, permite establecer cuando debe hacerse la transmisiÛn de los colores y cuando se deben apagar dichas seÒales en el \textquotedblleft Control de Salida \textquotedblright. Para entender la estructura de esta memoria, se propone la ilustraciÛn en la Figura \ref{fig:Memoria}\\[2ex]
 Cabe destacar que, en el bloque de memoria, se han colocado las iniciales \textquotedblleft LLA \textquotedblright mediante los datos insertados y presentados en la Tabla \ref{tbl:Memoria}.\\[2ex]
 
 \begin{figure}[htbp]
@@ -145,8 +145,8 @@ En general, el comportamiento de las etapas anteriores debe ser similar al prese
 	\label{fig:Comportamiento}
 \end{figure}
 
-Asimismo, el \textquotedblleft Control de croma \textquotedblright, como su nombre alude, es donde se realiza el control de los colores y los tonos. Este control permite almacenar las configuraciones de forma volatil seleccionadas por el usuario mediante las entradas Up, Down, LP y TC (Tone). De esta forma, se transmite los colores que tendr√°n las letras y el fondo de pantalla, para que sea regulado mediante el \textquotedblleft Control de Salida \textquotedblright, al recibir las se√±ales de Letra y de Blank. \\[2ex]
-Por otro lado, el \textquotedblleft Control de Salida \textquotedblright permite modificar las salidas de los colores anal√≥gicos para modificar los tonos. Este control maneja las entradas digitales del DAC para poder hacer cambios en la tensi√≥n de la se√±ales de R, G y B.\\[2ex]
+Asimismo, el \textquotedblleft Control de croma \textquotedblright, como su nombre alude, es donde se realiza el control de los colores y los tonos. Este control permite almacenar las configuraciones de forma volatil seleccionadas por el usuario mediante las entradas Up, Down, LP y TC (Tone). De esta forma, se transmite los colores que tendr·n las letras y el fondo de pantalla, para que sea regulado mediante el \textquotedblleft Control de Salida \textquotedblright, al recibir las seÒales de Letra y de Blank. \\[2ex]
+Por otro lado, el \textquotedblleft Control de Salida \textquotedblright permite modificar las salidas de los colores analÛgicos para modificar los tonos. Este control maneja las entradas digitales del DAC para poder hacer cambios en la tensiÛn de la seÒales de R, G y B.\\[2ex]
 
 
 \begin{figure}[htbp]
@@ -156,7 +156,7 @@ Por otro lado, el \textquotedblleft Control de Salida \textquotedblright permite
 	\label{fig:TercerNivel}
 \end{figure}
 
-Finalmente, a continuaci√≥n se presenta un resumen de las entradas y salidas de cada bloque, para aclarar las necesidades del dise√±o de tercer nivel. V√©ase la Tabla \ref{tbl:IO3}.
+Finalmente, a continuaciÛn se presenta un resumen de las entradas y salidas de cada bloque, para aclarar las necesidades del diseÒo de tercer nivel. VÈase la Tabla \ref{tbl:IO3}.
 
 \begin{table}[]
 	\centering
@@ -178,11 +178,11 @@ Finalmente, a continuaci√≥n se presenta un resumen de las entradas y salidas de 
 		& (Salida) V-Sync: Salida al monitor                                   & 1              \\ \hline
 		\multirow{4}{*}{Memoria}                                   & (Entrada) Cont\_H: Es el resultado del contador H                    & 10             \\ \cline{2-3} 
 		& (Entrada) Cont\_V: Es el resultado del contador V.                   & 10             \\ \cline{2-3} 
-		& (Salida) Blank: Alerta de se√±ales de sincron√≠a en Control de salida  & 1              \\ \cline{2-3} 
+		& (Salida) Blank: Alerta de seÒales de sincronÌa en Control de salida  & 1              \\ \cline{2-3} 
 		& (Salida) Letra: Determina si se debe pintar una letra o fondo        & 1              \\ \hline
 		\multirow{4}{*}{Antirrebotes \& Sinc.}                     & (Entrada) CLK: Corresponde al reloj del sistema                      & 1              \\ \cline{2-3} 
 		& (Entrada) Reset: Permite reiniciar el contador                       & 1              \\ \cline{2-3} 
-		& (Entrada) Bot√≥n: Recibe la se√±al del bot√≥n                           & 1              \\ \cline{2-3} 
+		& (Entrada) BotÛn: Recibe la seÒal del botÛn                           & 1              \\ \cline{2-3} 
 		& (Salida) Bit: Salida libre de rebotes y sincronizada                 & 1              \\ \hline
 		\multirow{9}{*}{Control de Croma}                          & (Entrada) CLK: Corresponde al reloj del sistema                      & 1              \\ \cline{2-3} 
 		& (Entrada) Reset: Permite reiniciar el contador                       & 1              \\ \cline{2-3} 
@@ -197,11 +197,11 @@ Finalmente, a continuaci√≥n se presenta un resumen de las entradas y salidas de 
 		& (Entrada) Tono: Representa el tono seleccionado por el usuario       & 8              \\ \cline{2-3} 
 		& (Entrada) Color\_P: Contiene el color del fondo de pantalla          & 3              \\ \cline{2-3} 
 		& (Entrada) Color\_L: Contiene el color de la letra                    & 3              \\ \cline{2-3} 
-		& (Entrada) Blank: Alerta de se√±ales de sincron√≠a en Control de salida & 1              \\ \cline{2-3} 
+		& (Entrada) Blank: Alerta de seÒales de sincronÌa en Control de salida & 1              \\ \cline{2-3} 
 		& (Entrada) Letra: Determina si se debe pintar una letra o fondo       & 1              \\ \cline{2-3} 
-		& (Salida) R: Representa la combinaci√≥n de tonos de rojo al DAC        & 3              \\ \cline{2-3} 
-		& (Salida) G: Representa la combinaci√≥n de tonos de verde al DAC       & 3              \\ \cline{2-3} 
-		& (Salida) B: Representa la combinaci√≥n de azul de rojo al DAC         & 2              \\ \hline
+		& (Salida) R: Representa la combinaciÛn de tonos de rojo al DAC        & 3              \\ \cline{2-3} 
+		& (Salida) G: Representa la combinaciÛn de tonos de verde al DAC       & 3              \\ \cline{2-3} 
+		& (Salida) B: Representa la combinaciÛn de azul de rojo al DAC         & 2              \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -212,9 +212,8 @@ Finalmente, a continuaci√≥n se presenta un resumen de las entradas y salidas de 
 \subsection{Mediciones}
 
 
-\section{An√°lisis de datos y resultados}
-En las simulaciones podemos notar que al realizar \textquotedblleft la simulacion postsintesis \textquotedblright estos tiempos se pueden considerar iguales a los del diagrama de tiempos de la figura \ref{fig:DiagramaTiempos}.\\[2ex]
-Por otro lado, podemos notar que al usar un dispositivo de medici√≥n virtual, tales como el \textquotedblleft MyDaq \textquotedblright no se puede obtener una imagen precisa de la se√±al generada por las salidas, esto se debe a la alta frecuencia a la que oscila las salidas. Por lo que se debe usar instrumentos de medicion reales, un osciloscopio.\\[2ex]
+\section{An·lisis de datos y resultados}
+
 
 \section{Hoja de datos de unidades desarrolladas}
 
@@ -222,22 +221,22 @@ Por otro lado, podemos notar que al usar un dispositivo de medici√≥n virtual, ta
 \section{Conclusiones y recomendaciones}
 \subsection{Conclusiones}
 \begin{itemize}
-    \item El desarrollo de la descripci√≥n de hardware a alto nivel, aprovechando el lenguaje Verilog y el sintetizador incorporado en Xilinx ISE facilita la tarea de implementaci√≥n de un dise√±o para su futuro prototipado. Asimismo, el sintetizador permite aprovechar al m√°ximo los recursos de una FPGA.
-    \item El empleo de la simulaci√≥n pre-s√≠ntesis permite monitorizar el comportamiento del c√≥digo de una forma ideal y gu√≠a el desarrollo de la implentaci√≥n por HDL.
-    \item La simulaci√≥n post-s√≠ntesis a nivel de compuertas es una gran herramienta para comprobar la compatibilidad de lo implementado en HDL para verificar su correcto funcionamiento al momento de transferirlo a una FPGA.
-    \item El empleo de herramientas de control de versiones son una muy buena pr√°ctica para desarrollar c√≥digo entre uno o varios programadores y para correcci√≥n de posibles errores.
-    \item Es posible controlar un monitor mediante el protocolo VGA. Este protocolo es bastante flexible para poder desplegar datos, ya que facilita un control pixel por pixel en el monitor y eso puede flexibilizar la exposici√≥n de datos en la pantalla.
+    \item El desarrollo de la descripciÛn de hardware a alto nivel, aprovechando el lenguaje Verilog y el sintetizador incorporado en Xilinx ISE facilita la tarea de implementaciÛn de un diseÒo para su futuro prototipado. Asimismo, el sintetizador permite aprovechar al m·ximo los recursos de una FPGA.
+    \item El empleo de la simulaciÛn pre-sÌntesis permite monitorizar el comportamiento del cÛdigo de una forma ideal y guÌa el desarrollo de la implentaciÛn por HDL.
+    \item La simulaciÛn post-sÌntesis a nivel de compuertas es una gran herramienta para comprobar la compatibilidad de lo implementado en HDL para verificar su correcto funcionamiento al momento de transferirlo a una FPGA.
+    \item El empleo de herramientas de control de versiones son una muy buena pr·ctica para desarrollar cÛdigo entre uno o varios programadores y para correcciÛn de posibles errores.
+    \item Es posible controlar un monitor mediante el protocolo VGA. Este protocolo es bastante flexible para poder desplegar datos, ya que facilita un control pixel por pixel en el monitor y eso puede flexibilizar la exposiciÛn de datos en la pantalla.
 \end{itemize}
 
 \subsection{Recomendaciones}
 \begin{itemize}
 
-    \item Durante la etapa de planificaci√≥n y dise√±o, es necesario que todos los miembros del equipo est√©n presentes e involucrados, ya que esto permitir√° mayor fluidez en el desarrollo del proyecto y el entendimiento del mismo.
-    \item Es necesario, adem√°s, que los miembros del equipo tengan una buena comunicaci√≥n y delimitar los roles que cada miembro tiene. Esto evitar√° futuros choques en las tareas de cada miembro.
-    \item Se debe considerar, al inicio del trabajo, la plataforma de desarrollo que se emplear√°. Esto evitar√° modificaciones en el dise√±o en el momento de implementar el prototipo. Es bueno, tambi√©n, tener a mano durante todo el dise√±o y la descripci√≥n en HDL, la hoja de datos de la plataforma.
-    \item Crear un cronograma de trabajo sintetizado y asignar tareas por objetivos ayuda a tener una buena organizaci√≥n del equipo en cuanto al tiempo disponible para las tareas. Esto evitar√° contratiempos y posibles choques en las tareas.
-    \item Se debe explorar con bastante anterioridad las herramientas de software que se emplear√°n durante el proyecto. Esto evitar√° posibles contratiempos al aprender a usarlas durante la implementaci√≥n del proyecto.
-    \item Simular de forma detallada un circuito permite encontrar posibles fuentes de error, tal como sirvi√≥ de ayuda para encontrar el desfase de las se√±ales de sincron√≠a de forma adecuada para que se cumplieran los tiempos de forma casi exacta a lo expresado por el fabricante.
+    \item Durante la etapa de planificaciÛn y diseÒo, es necesario que todos los miembros del equipo estÈn presentes e involucrados, ya que esto permitir· mayor fluidez en el desarrollo del proyecto y el entendimiento del mismo.
+    \item Es necesario, adem·s, que los miembros del equipo tengan una buena comunicaciÛn y delimitar los roles que cada miembro tiene. Esto evitar· futuros choques en las tareas de cada miembro.
+    \item Se debe considerar, al inicio del trabajo, la plataforma de desarrollo que se emplear·. Esto evitar· modificaciones en el diseÒo en el momento de implementar el prototipo. Es bueno, tambiÈn, tener a mano durante todo el diseÒo y la descripciÛn en HDL, la hoja de datos de la plataforma.
+    \item Crear un cronograma de trabajo sintetizado y asignar tareas por objetivos ayuda a tener una buena organizaciÛn del equipo en cuanto al tiempo disponible para las tareas. Esto evitar· contratiempos y posibles choques en las tareas.
+    \item Se debe explorar con bastante anterioridad las herramientas de software que se emplear·n durante el proyecto. Esto evitar· posibles contratiempos al aprender a usarlas durante la implementaciÛn del proyecto.
+    \item Simular de forma detallada un circuito permite encontrar posibles fuentes de error, tal como sirviÛ de ayuda para encontrar el desfase de las seÒales de sincronÌa de forma adecuada para que se cumplieran los tiempos de forma casi exacta a lo expresado por el fabricante.
     
 \end{itemize}
 
